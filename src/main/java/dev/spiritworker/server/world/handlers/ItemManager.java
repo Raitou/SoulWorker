@@ -140,8 +140,8 @@ public class ItemManager {
 		// Send update packets
 		character.getSession().sendPacket(PacketBuilder.sendClientItemUpdateDye(item));
 		
-		if (item.getSlot() == InventorySlotType.COSMETIC.getValue() && character.getMap().getCharacters().size() > 1) {
-			character.getMap().broadcastPacketFrom(character, PacketBuilder.sendClientItemUpdate(character, slotType, slot, item));
+		if (item.getSlot() == InventorySlotType.COSMETIC.getValue()) {
+			character.getMap().broadcastPacket(PacketBuilder.sendClientItemUpdate(character, item.getTab(), item.getSlot(), item));
 		}
 		
 		character.getMap().broadcastPacket(PacketBuilder.sendClientItemDyeResult(character, item));

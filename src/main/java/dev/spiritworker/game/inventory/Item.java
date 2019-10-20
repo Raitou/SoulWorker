@@ -31,7 +31,7 @@ public class Item {
 	private int slot;
 	private int count;
 	private int durability;
-	private short dyeColor;
+	private int dyeColor;
 	private String inner;
 	
 	private int upgrades;
@@ -157,12 +157,12 @@ public class Item {
 		this.durability = durability;
 	}
 	
-	public short getDyeColor() {
+	public int getDyeColor() {
 		return dyeColor;
 	}
 
 	public void setDyeColor(int dyeColor) {
-		this.dyeColor = (short) dyeColor;
+		this.dyeColor = dyeColor;
 	}
 
 	public void write(PacketWriter p) {
@@ -192,8 +192,8 @@ public class Item {
 		p.writeUint32(getWeaponDamage());	// Weapon damage
 		p.writeUint32(getDefence());		// Defence
 		p.writeEmpty(4);
-		p.writeUint16(getDyeColor());
-		p.writeEmpty(3);
+		p.writeUint32(getDyeColor());
+		p.writeEmpty(1);
 	}
 
 	public static void writeEmpty(PacketWriter p, int tab, int slot) {

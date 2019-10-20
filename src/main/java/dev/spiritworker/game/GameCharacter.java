@@ -414,15 +414,16 @@ public class GameCharacter {
 		for (int e = 0; e < 13; e++) {
 			Item item = getInventory().getCosmeticItems().getItemAt(e);
 			if (item != null) {
-				p.writeInt32(-1); // ?
+				p.writeInt32(item.getUniqueId()); // ?
 				p.writeInt32(Item.UNKNOWN2); // ?
 				p.writeInt32(item.getItemId()); // Equipped item id
+				p.writeUint32(item.getDyeColor());
 			} else {
 				p.writeInt32(-1); // ?
 				p.writeInt32(-1); // ?
 				p.writeInt32(-1); // Equipped item id
+				p.writeUint32(0);
 			}
-			p.writeUint32(0);
 			p.writeInt32(-1);
 			p.writeInt32(-1);
 			p.writeInt32(-1); 

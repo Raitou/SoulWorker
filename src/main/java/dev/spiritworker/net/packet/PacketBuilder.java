@@ -119,15 +119,16 @@ public class PacketBuilder {
 			for (int e = 0; e < 13; e++) {
 				Item item = character.getInventory().getCosmeticItems().getItemAt(e);
 				if (item != null) {
-					p.writeInt32(-1); // ?
-					p.writeInt32(37368591); // ?
+					p.writeInt32(item.getUniqueId()); // ?
+					p.writeInt32(Item.UNKNOWN2); // ?
 					p.writeInt32(item.getItemId()); // Equipped item id
+					p.writeUint32(item.getDyeColor());
 				} else {
 					p.writeInt32(-1); // ?
 					p.writeInt32(-1); // ?
 					p.writeInt32(-1); // Equipped item id
+					p.writeUint32(0);
 				}
-				p.writeUint32(0);
 				p.writeInt32(-1);
 				p.writeInt32(-1);
 				p.writeInt32(-1); 
@@ -725,7 +726,7 @@ public class PacketBuilder {
 		p.writeUint32(character.getId());
 		p.writeUint32(item.getItemId());
 		p.writeUint32(item.getDyeColor());
-		p.writeUint32(0); // Unknown
+		p.writeUint32(4); // Unknown
 		p.writeUint32(0); // Unknown
 		
 		return p.getPacket();
