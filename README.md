@@ -1,2 +1,2 @@
 # SpiritWorker
-A server emulator for SoulWorker
+A WIP server emulator for SoulWorker (GF) 
