@@ -204,10 +204,20 @@ public class PacketBuilder {
 	public static byte[] sendServerSpecialOption(GameSession session) {
 		PacketWriter p = new PacketWriter(PacketOpcodes.ServerSpecialOption);
 		
-		p.writeBytes(new byte[] {
-			(byte) 0x01, (byte) 0x00, (byte) 0x01, (byte) 0x00, (byte) 0x01, (byte) 0x01, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x01, (byte) 0x00,
-			(byte) 0x01, (byte) 0x00, (byte) 0x00
-		});
+		p.writeBoolean(true);
+		p.writeBoolean(false); // Enable secondary password
+		p.writeBoolean(true);
+		p.writeBoolean(false);
+		p.writeBoolean(true);
+		p.writeBoolean(true);
+		p.writeBoolean(false);
+		p.writeBoolean(false);
+		p.writeBoolean(true);
+		p.writeBoolean(true);
+		p.writeBoolean(false);
+		p.writeBoolean(true);
+		p.writeBoolean(false);
+		p.writeBoolean(false);
 		
 		return p.getPacket();
 	}
@@ -273,79 +283,9 @@ public class PacketBuilder {
 	public static byte[] sendClientCharacterInfo(WorldSession session, GameCharacter character) {
 		PacketWriter p = new PacketWriter(PacketOpcodes.ClientCharacterInfoResponse);
 		
-		p.writeUint32(character.getId()); // Character id
-		p.writeString16(character.getName());
-		p.writeUint8(character.getType());
-		p.writeUint8(0); // Class advancement??
-		p.writeUint32(3001); // Unknown??? [class]00[number]
-		p.writeUint16(character.getHairStyle());
-		p.writeUint16(character.getHairColor());
-		p.writeUint16(character.getEyeColor());
-		p.writeUint16(character.getSkinColor());
-		p.writeUint64(0); // Unknown
-		p.writeUint8(character.getLevel());
-		p.writeUint8(4); // Unknown
-		p.writeUint32(session.getAccountId());
-		p.writeEmpty(6);
-		
-		// Weapon
-		Item weapon = character.getInventory().getWeapon();
-		p.writeInt32(weapon != null ? weapon.getItemId() : -1); // Weapon item id
-		p.writeUint8(0);  // Unknown
-		p.writeInt32(-1); // Filler?
-		
-		// Equipment
-		for (int i = 0; i < 13; i++) {
-			Item item = character.getInventory().getCosmeticItems().getItemAt(i);
-			if (item != null) {
-				p.writeInt32(-1); // ?
-				p.writeInt32(37368591); // ?
-				p.writeInt32(item.getItemId()); // Equipped item id
-			} else {
-				p.writeInt32(-1); // ?
-				p.writeInt32(-1); // ?
-				p.writeInt32(-1); // Equipped item id
-			}
-			p.writeUint32(0);
-			p.writeInt32(-1);
-			p.writeInt32(-1);
-			p.writeInt32(-1);
-			p.writeUint32(0);
-		}
-		
-		p.writeUint32(0); // Unknown
-		p.writeUint32(0); // 1st Title 
-		p.writeUint32(0); // 2nd Title
-		p.writeEmpty(10); // Unknown
-		
-		p.writeUint32(1450); // Current Hp
-		p.writeUint32(1450); // Base Hp
-		p.writeUint32(200); // Unknown
-		p.writeUint32(200); // Unknown
-		p.writeUint32(0); // Unknown
-		p.writeUint32(0); // Unknown
-		p.writeUint32(100); // Soul energy/Stamina??
-		p.writeUint32(100); // Soul energy/Stamina??
-		p.writeUint32(0); // Unknown
-		p.writeUint32(0); // Unknown
-		p.writeFloat(100f); // Soul energy/Stamina??
-		p.writeFloat(100f); // Soul energy/Stamina??
-		p.writeUint16(0); // Unknown
-		p.writeUint8(0); // Unknown
-		p.writeUint16(character.getEnergy()); // Energy
-		p.writeUint16(character.getExtraEnergy()); // Extra Energy
-		p.writeEmpty(14);
-		p.writeUint16(character.getDistrictId()); // Map id (10021 == candus city??)
-		p.writeUint16(101); // Unknown
-		p.writeUint16(256); // Unknown
-		p.writeUint16(character.getDistrictId()); // Unknown
-		p.writeUint16(1); // Unknown
-		p.writeFloat(character.getPosition().getX()); // Position X
-		p.writeFloat(character.getPosition().getZ()); // Position Y
-		p.writeFloat(character.getPosition().getY()); // Position Z
-		p.writeFloat(character.getAngle()); // Rotation?
-		p.writeFloat(507.5f); // Unknown
-		p.writeFloat(507.5f); // Unknown
+		character.writeMainData(p);
+		character.writeCosmetics(p);
+		character.writeExtraData(p);
 		p.writeUint32(character.getExp()); // Exp
 		p.writeUint64(character.getMoney()); // Money (Zenny)
 		p.writeUint32(0); // Unknown

@@ -296,14 +296,14 @@ public class GameCharacter {
 		p.writeString16(this.getName());
 		p.writeUint8(this.getType());
 		p.writeUint8(0); // Class advancement??
-		p.writeUint32(0); // Unknown (Probably portrait)
+		p.writeUint32(0); // Portrait
 		p.writeUint16(this.getHairStyle());
 		p.writeUint16(this.getHairColor());
 		p.writeUint16(this.getEyeColor());
 		p.writeUint16(this.getSkinColor());
-		p.writeUint64(0); // Unknown
+		p.writeUint64(0);
 		p.writeUint16(this.getLevel());
-		p.writeEmpty(10); // Titles go here??
+		p.writeEmpty(10);
 		
 		// Current weapon
 		Item weapon = this.getInventory().getWeapon();
@@ -337,7 +337,7 @@ public class GameCharacter {
 		p.writeUint32(0); // Unknown
 		p.writeUint32(0); // 1st Title 
 		p.writeUint32(0); // 2nd Title
-		p.writeUint32(0); // Unknown - Guild id?
+		p.writeUint32(0); // Guild id?
 		p.writeUint16(0); // Guild name (string16)
 		p.writeUint32(0); // Unknown
 		
