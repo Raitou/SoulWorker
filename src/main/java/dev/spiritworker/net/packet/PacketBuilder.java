@@ -707,4 +707,27 @@ public class PacketBuilder {
 		
 		return p.getPacket();
 	}
+	
+	public static byte[] sendClientItemUpdateDye(Item item) {
+		PacketWriter p = new PacketWriter(PacketOpcodes.ClientItemUpdateDye);
+		
+		p.writeUint32(1); // Amount of items to update
+		item.write(p);
+		
+		return p.getPacket();
+	}
+	
+	public static byte[] sendClientItemDyeResult(GameCharacter character, Item item) {
+		PacketWriter p = new PacketWriter(PacketOpcodes.ClientItemDye);
+		
+		p.writeUint32(item.getUniqueId());
+		p.writeUint32(Item.UNKNOWN2);
+		p.writeUint32(character.getId());
+		p.writeUint32(item.getItemId());
+		p.writeUint32(item.getDyeColor());
+		p.writeUint32(0); // Unknown
+		p.writeUint32(0); // Unknown
+		
+		return p.getPacket();
+	}
 }

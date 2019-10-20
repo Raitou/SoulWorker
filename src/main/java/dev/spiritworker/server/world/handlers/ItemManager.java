@@ -2,6 +2,7 @@ package dev.spiritworker.server.world.handlers;
 
 import dev.spiritworker.Constants;
 import dev.spiritworker.game.GameCharacter;
+import dev.spiritworker.game.inventory.BaseInventoryTab;
 import dev.spiritworker.game.inventory.InventorySlotType;
 import dev.spiritworker.game.inventory.InventoryTab;
 import dev.spiritworker.game.inventory.Item;
@@ -73,7 +74,6 @@ public class ItemManager {
 	}
 
 	public void increaseInventorySlots(GameCharacter character, int slotType) {
-		
 		// Get tab by id
 		InventoryTab tab = character.getInventory().getInventoryTabByType(slotType);
 		
@@ -104,4 +104,46 @@ public class ItemManager {
 		}
 	}
 
+	public void dyeItem(GameCharacter character, int slotType, int slot, int dyeType, int color) {
+		Item dyePipette;
+		
+		if (dyeType == 1) {
+			dyePipette = character.getInventory().getInventoryTabByType(InventorySlotType.PREMIUM).searchItemById(836000001);
+		} else if (dyeType == 2) {
+			dyePipette = character.getInventory().getInventoryTabByType(InventorySlotType.PREMIUM).searchItemById(836000002);
+		} else {
+			return;
+		}
+		
+		if (dyePipette == null) {
+			return;
+		}
+		
+		BaseInventoryTab tab = character.getInventory().getTabByType(slotType);
+		
+		if (tab == null) {
+			return;
+		}
+		
+		Item item = tab.getItemAt(slot);
+		
+		if (item == null) {
+			return;
+		}
+		
+		// TODO Sanity check color id
+		
+		// Set color
+		character.getInventory().deleteItem(InventorySlotType.PREMIUM, dyePipette.getSlot(), 1);
+		item.setDyeColor(color);
+		
+		// Send update packets
+		character.getSession().sendPacket(PacketBuilder.sendClientItemUpdateDye(item));
+		
+		if (item.getSlot() == InventorySlotType.COSMETIC.getValue() && character.getMap().getCharacters().size() > 1) {
+			character.getMap().broadcastPacketFrom(character, PacketBuilder.sendClientItemUpdate(character, slotType, slot, item));
+		}
+		
+		character.getMap().broadcastPacket(PacketBuilder.sendClientItemDyeResult(character, item));
+	}
 }

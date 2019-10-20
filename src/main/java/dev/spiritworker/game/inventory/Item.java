@@ -17,7 +17,7 @@ import dev.spiritworker.util.Utils;
 
 @Entity(value = "items", noClassnameStored = true)
 public class Item {
-	public static final int UNKNOWN2 = 37368591;
+	public static final int UNKNOWN2 = 91675916;
 	
 	@Id
 	private ObjectId id;
@@ -30,7 +30,8 @@ public class Item {
 	private int tab = InventorySlotType.NORMAL.getValue();
 	private int slot;
 	private int count;
-	private int durability = 0;
+	private int durability;
+	private short dyeColor;
 	private String inner;
 	
 	private int upgrades;
@@ -73,8 +74,12 @@ public class Item {
 		}
 	}
 	
-	public ObjectId getUniqueId() {
+	public ObjectId getObjectId() {
 		return this.id;
+	}
+	
+	public int getUniqueId() {
+		return this.uniqueId;
 	}
 
 	public int getItemId() {
@@ -151,6 +156,14 @@ public class Item {
 	public void setDurability(int durability) {
 		this.durability = durability;
 	}
+	
+	public short getDyeColor() {
+		return dyeColor;
+	}
+
+	public void setDyeColor(int dyeColor) {
+		this.dyeColor = (short) dyeColor;
+	}
 
 	public void write(PacketWriter p) {
 		p.writeUint8(getTab());
@@ -178,7 +191,9 @@ public class Item {
 		p.writeEmpty(3);
 		p.writeUint32(getWeaponDamage());	// Weapon damage
 		p.writeUint32(getDefence());		// Defence
-		p.writeEmpty(9);
+		p.writeEmpty(4);
+		p.writeUint16(getDyeColor());
+		p.writeEmpty(3);
 	}
 
 	public static void writeEmpty(PacketWriter p, int tab, int slot) {

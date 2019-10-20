@@ -88,6 +88,9 @@ public class WorldPacketHandler {
 			case PacketOpcodes.ClientItemUpdateSlotInfo:
 				handleClientItemUpdateSlotInfo(session, packet);
 				break;
+			case PacketOpcodes.ClientItemDye:
+				handleClientItemDye(session, packet);
+				break;
 			case PacketOpcodes.ClientDoGesture:
 				handleClientDoGesture(session, packet);
 				break;
@@ -109,6 +112,15 @@ public class WorldPacketHandler {
 				}
 				break;
 		}
+	}
+
+	private static void handleClientItemDye(WorldSession session, ByteBuffer packet) {
+		int tab = packet.get();
+		int slot = packet.getShort();
+		int dyeType = packet.get();	 // 1 = regular dye, 2 = random
+		int color = packet.getInt();
+		
+		session.getServer().getItemManager().dyeItem(session.getCharacter(), tab, slot, dyeType, color);
 	}
 
 	private static void handleClientAppearancePick(WorldSession session, ByteBuffer packet) {

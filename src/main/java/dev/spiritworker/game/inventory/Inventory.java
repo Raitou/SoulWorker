@@ -293,7 +293,7 @@ public class Inventory {
 	// Loading
 	
 	private void loadItem(Item item) {
-		if (item.getUniqueId() == null) {
+		if (item.getObjectId() == null) {
 			SpiritWorker.getLogger().warn("Item with null object id to be loaded");
 			return;
 		}

@@ -82,6 +82,7 @@ public class PacketOpcodes {
 	public static final int ClientItemBankInfo = 0x0810;
 	public static final int ClientItemUse = 0x0811;
 	public static final int ClientItemUpdateCount = 0x0812;
+	public static final int ClientItemUpdateDye = 0x0815;
 	
 	public static final int ClientAppearanceInfo = 0x0850;
 	public static final int ClientAppearancePick = 0x0852;
@@ -101,6 +102,7 @@ public class PacketOpcodes {
 	public static final int ClientItemUpgrade = 0x1802;
 	public static final int ClientItemExchange = 0x1803;
 	public static final int ClientItemDisassemble = 0x1804;
+	public static final int ClientItemDye = 0x1836;
 	
 	public static final int ClientPostSendList = 0x2001;
 	public static final int ClientPostRecvList = 0x2002;
