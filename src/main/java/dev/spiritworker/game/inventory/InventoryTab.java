@@ -98,8 +98,8 @@ public class InventoryTab extends BaseInventoryTab {
 				// Item fully deleted
 				getCharacter().getSession().sendPacket(PacketBuilder.sendClientItemBreak(getSlotType(), slot));
 			} else {
-				// TODO Item count changed, needs update (not working)
-				//getCharacter().getSession().sendPacket(PacketBuilder.sendClientItemUpdate(getInventory().getCharacter(), item.getTab(), item.getSlot(), item));
+				// Item count changed, send updated item count to client
+				getCharacter().getSession().sendPacket(PacketBuilder.sendClientItemUpdateCount(item));
 			}
 			return item;
 		}

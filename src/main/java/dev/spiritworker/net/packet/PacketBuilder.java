@@ -475,6 +475,17 @@ public class PacketBuilder {
 		
 		return p.getPacket();
 	}
+	
+	public static byte[] sendClientItemUpdateCount(Item item) {
+		PacketWriter p = new PacketWriter(PacketOpcodes.ClientItemUpdateCount);
+		
+		p.writeUint8(0);
+		p.writeUint8(item.getTab());
+		p.writeUint16(item.getSlot());
+		p.writeUint32(item.getCount());
+		
+		return p.getPacket();
+	}
 
 	public static byte[] sendClientItemCreate(Item item) {
 		PacketWriter p = new PacketWriter(PacketOpcodes.ClientItemCreate);

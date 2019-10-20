@@ -76,11 +76,12 @@ public class PacketOpcodes {
 	public static final int ClientItemDivide = 0x0804;
 	public static final int ClientItemBreak = 0x0805;
 	public static final int ClientItemCreate = 0x0806;
-	public static final int ClientItemUpdate = 0x080d;  // ??
+	public static final int ClientItemUpdate = 0x080d;
 	public static final int ClientItemOpenSlotInfo = 0x080e;
 	public static final int ClientItemUpdateSlotInfo = 0x080f;
 	public static final int ClientItemBankInfo = 0x0810;
 	public static final int ClientItemUse = 0x0811;
+	public static final int ClientItemUpdateCount = 0x0812;
 	
 	public static final int ClientAppearanceInfo = 0x0850;
 	public static final int ClientAppearancePick = 0x0852;
