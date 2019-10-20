@@ -18,4 +18,7 @@ public class Utils {
 		return sb.toString();
 	}
 
+	public static int getAppearanceType(int appearance) {
+		return (int) Math.floor((float) appearance / 1000f);
+	}
 }

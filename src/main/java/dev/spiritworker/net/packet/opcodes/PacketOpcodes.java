@@ -82,6 +82,9 @@ public class PacketOpcodes {
 	public static final int ClientItemBankInfo = 0x0810;
 	public static final int ClientItemUse = 0x0811;
 	
+	public static final int ClientAppearanceInfo = 0x0850;
+	public static final int ClientAppearancePick = 0x0852;
+	
 	public static final int ClientShopBuy = 0x0901;
 	public static final int ClientShopSell = 0x0902;
 	

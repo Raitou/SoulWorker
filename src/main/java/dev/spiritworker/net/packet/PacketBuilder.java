@@ -102,7 +102,10 @@ public class PacketBuilder {
 			p.writeUint16(character.getHairColor());
 			p.writeUint16(character.getEyeColor());
 			p.writeUint16(character.getSkinColor());
-			p.writeUint64(0); // Unknown
+			p.writeUint16(character.getEquippedHairStyle());
+			p.writeUint16(character.getEquippedHairColor());
+			p.writeUint16(character.getEquippedSkinColor());
+			p.writeUint16(character.getEquippedEyeColor());
 			p.writeUint16(character.getLevel());
 			p.writeEmpty(10); // Titles go here??
 			
@@ -666,6 +669,30 @@ public class PacketBuilder {
 		PacketWriter p = new PacketWriter(PacketOpcodes.ClientCancelGesture);
 		
 		p.writeUint32(character.getId());
+		
+		return p.getPacket();
+	}
+	
+	public static byte[] sendClientAppearanceInfo(GameCharacter character) {
+		PacketWriter p = new PacketWriter(PacketOpcodes.ClientAppearanceInfo);
+		
+		p.writeUint8(character.getAppearances().size());
+		for (int s : character.getAppearances()) {
+			p.writeUint16(s);
+			p.writeUint64(0);
+		}
+		
+		return p.getPacket();
+	}
+	
+	public static byte[] sendClientAppearancePick(GameCharacter character) {
+		PacketWriter p = new PacketWriter(PacketOpcodes.ClientAppearancePick);
+		
+		p.writeUint32(character.getId());
+		p.writeUint16(character.getEquippedHairStyle());
+		p.writeUint16(character.getEquippedHairColor());
+		p.writeUint16(character.getEquippedSkinColor());
+		p.writeUint16(character.getEquippedEyeColor());
 		
 		return p.getPacket();
 	}

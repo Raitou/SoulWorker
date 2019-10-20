@@ -94,6 +94,9 @@ public class WorldPacketHandler {
 			case PacketOpcodes.ClientGestureSlotUpdate:
 				handleClientGestureSlotUpdate(session, packet);
 				break;
+			case PacketOpcodes.ClientAppearancePick:
+				handleClientAppearancePick(session, packet);
+				break;
 			case PacketOpcodes.ClientChannelInfo:
 				handleClientChannelInfo(session);
 				break;
@@ -105,6 +108,25 @@ public class WorldPacketHandler {
 					SpiritWorker.getLogger().info("Unhandled packet: " + opcode + " Length: " + packet.capacity());
 				}
 				break;
+		}
+	}
+
+	private static void handleClientAppearancePick(WorldSession session, ByteBuffer packet) {
+		short hairStyle = packet.getShort();
+		short hairColor = packet.getShort();
+		short skinColor = packet.getShort();
+		short eyeColor = packet.getShort();
+		
+		boolean changed = false;
+		
+		// Detect if a equipped style has changed
+		changed = session.getCharacter().setEquippedHairStyle(hairStyle);
+		changed = session.getCharacter().setEquippedHairColor(hairColor) || changed;
+		changed = session.getCharacter().setEquippedSkinColor(skinColor) || changed;
+		changed = session.getCharacter().setEquippedEyeColor(eyeColor) || changed;
+		
+		if (changed) {
+			session.getCharacter().getMap().broadcastPacket(PacketBuilder.sendClientAppearancePick(session.getCharacter()));
 		}
 	}
 
@@ -209,6 +231,11 @@ public class WorldPacketHandler {
 		// Note: Required to get character name to show up
 		session.sendPacket(PacketBuilder.sendClientCharacterLoadTitle(session)); 
 		session.sendPacket(PacketBuilder.sendClientCharacterUpdateTitle(session)); 
+		
+		// Send appearance data
+		if (session.getCharacter().getAppearances().size() > 0) {
+			session.sendPacket(PacketBuilder.sendClientAppearanceInfo(session.getCharacter()));
+		}
 	}
 
 	private static void handleClientRequestPlayers(WorldSession session) {

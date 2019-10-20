@@ -10,6 +10,10 @@ import dev.spiritworker.game.inventory.data.InventoryUpgradeData;
 import dev.spiritworker.net.packet.util.PacketWriter;
 import dev.spiritworker.netty.SoulWorkerSession;
 import dev.spiritworker.util.Position;
+import dev.spiritworker.util.Utils;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import dev.morphia.annotations.*;
 
@@ -38,6 +42,11 @@ public class GameCharacter {
 	private short hairColor;
 	private short eyeColor;
 	private short skinColor;
+	private short hairStyleEquipped;
+	private short hairColorEquipped;
+	private short eyeColorEquipped;
+	private short skinColorEquipped;
+	private Set<Short> appearances;
 	
 	private Position position;
 	private float angle;
@@ -49,7 +58,6 @@ public class GameCharacter {
 	private long ether;
 	private long bp;
 	
-	
 	@Transient private Inventory inventory;
 	@Transient private BankUpgradeData upgradeDataBank;
 	private InventoryUpgradeData upgradeData;
@@ -58,6 +66,8 @@ public class GameCharacter {
 		this.inventory = new Inventory(this);
 		this.emotes = new int[Constants.MAX_EMOTE_SLOTS];
 		this.upgradeData = new InventoryUpgradeData();
+		this.appearances= new HashSet<Short>();
+		this.appearances.add((short) 1110);
 	}
 	
 	public GameCharacter(SoulWorkerSession owner) {
@@ -164,6 +174,90 @@ public class GameCharacter {
 
 	public void setSkinColor(int skinColor) {
 		this.skinColor = (short) skinColor;
+	}
+	
+	public short getEquippedHairStyle() {
+		return hairStyleEquipped;
+	}
+
+	public boolean setEquippedHairStyle(int style) {
+		short a = (short) style; 
+		if (a == 0) {
+			this.hairStyleEquipped = 0; 
+			return true;
+		}
+		if (Utils.getAppearanceType(a) != 1 || !getAppearances().contains(a)) return false;
+		this.hairStyleEquipped = a;
+		return true;
+	}
+
+	public short getEquippedHairColor() {
+		return hairColorEquipped;
+	}
+
+	public boolean setEquippedHairColor(int style) {
+		short a = (short) style; 
+		if (a == 0) {
+			this.hairColorEquipped = 0; 
+			return true;
+		}
+		if (Utils.getAppearanceType(a) != 2 || !getAppearances().contains(a)) return false;
+		this.hairColorEquipped = a;
+		return true;
+	}
+
+	public short getEquippedEyeColor() {
+		return eyeColorEquipped;
+	}
+
+	public boolean setEquippedEyeColor(int style) {
+		short a = (short) style; 
+		if (a == 0) {
+			this.eyeColorEquipped = 0; 
+			return true;
+		}
+		if (Utils.getAppearanceType(a) != 3 || !getAppearances().contains(a)) return false;
+		this.eyeColorEquipped = a;
+		return true;
+	}
+
+	public short getEquippedSkinColor() {
+		return skinColorEquipped;
+	}
+
+	public boolean setEquippedSkinColor(int style) {
+		short a = (short) style; 
+		if (a == 0) {
+			this.skinColorEquipped = 0; 
+			return true;
+		}
+		if (Utils.getAppearanceType(a) != 5 || !getAppearances().contains(a)) return false;
+		this.skinColorEquipped = a;
+		return true;
+	}
+	
+	public short getCurrentHairStyle() {
+		return hairStyleEquipped != 0 ? hairStyleEquipped : hairStyle;
+	}
+	
+	public short getCurrentHairColor() {
+		return hairColorEquipped != 0 ? hairColorEquipped : hairColor;
+	}
+	
+	public short getCurrentEyeColor() {
+		return eyeColorEquipped != 0 ? eyeColorEquipped : eyeColor;
+	}
+	
+	public short getCurrentSkinColor() {
+		return skinColorEquipped != 0 ? skinColorEquipped : skinColor;
+	}
+	
+	public Set<Short> getAppearances() {
+		return this.appearances;
+	}
+	
+	public void addAppearance(int a) {
+		this.appearances.add((short) a);
 	}
 	
 	public int[] getEmotes() {
@@ -301,7 +395,10 @@ public class GameCharacter {
 		p.writeUint16(this.getHairColor());
 		p.writeUint16(this.getEyeColor());
 		p.writeUint16(this.getSkinColor());
-		p.writeUint64(0);
+		p.writeUint16(this.getEquippedHairStyle());
+		p.writeUint16(this.getEquippedHairColor());
+		p.writeUint16(this.getEquippedEyeColor());
+		p.writeUint16(this.getEquippedSkinColor());
 		p.writeUint16(this.getLevel());
 		p.writeEmpty(10);
 		
