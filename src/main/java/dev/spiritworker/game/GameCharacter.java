@@ -67,7 +67,6 @@ public class GameCharacter {
 		this.emotes = new int[Constants.MAX_EMOTE_SLOTS];
 		this.upgradeData = new InventoryUpgradeData();
 		this.appearances= new HashSet<Short>();
-		this.appearances.add((short) 1110);
 	}
 	
 	public GameCharacter(SoulWorkerSession owner) {
