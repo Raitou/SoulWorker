@@ -94,7 +94,7 @@ public class CommandHandler {
 			
 			Item item = new Item(itemId);
 			item.setCount(count);
-			character.getInventory().getInventoryTabByType(InventorySlotType.NORMAL).addItem(item);
+			character.getInventory().addItem(item);
 		}
 	}
 	
@@ -124,15 +124,15 @@ public class CommandHandler {
 		@Override
 		public void execute(GameCharacter character, String raw) {
 			// Gear
-			character.getInventory().getInventoryTabByType(InventorySlotType.NORMAL).addItem(new Item(510014351));
-			character.getInventory().getInventoryTabByType(InventorySlotType.NORMAL).addItem(new Item(520014351));
-			character.getInventory().getInventoryTabByType(InventorySlotType.NORMAL).addItem(new Item(530014351));
-			character.getInventory().getInventoryTabByType(InventorySlotType.NORMAL).addItem(new Item(540014351));
+			character.getInventory().addItem(new Item(510014351));
+			character.getInventory().addItem(new Item(520014351));
+			character.getInventory().addItem(new Item(530014351));
+			character.getInventory().addItem(new Item(540014351));
 			// Rings
-			character.getInventory().getInventoryTabByType(InventorySlotType.NORMAL).addItem(new Item(410015401));
-			character.getInventory().getInventoryTabByType(InventorySlotType.NORMAL).addItem(new Item(430015401));
-			character.getInventory().getInventoryTabByType(InventorySlotType.NORMAL).addItem(new Item(440015401));
-			character.getInventory().getInventoryTabByType(InventorySlotType.NORMAL).addItem(new Item(440015401));
+			character.getInventory().addItem(new Item(410015401));
+			character.getInventory().addItem(new Item(430015401));
+			character.getInventory().addItem(new Item(440015401));
+			character.getInventory().addItem(new Item(440015401));
 		}
 	}
 }

@@ -73,7 +73,8 @@ public class Inventory {
 	}
 	
 	public void addItem(Item item) {
-		// TODO
+		// TODO add item to its proper tab
+		getInventoryTabByType(InventorySlotType.NORMAL).addItem(item);
 	}
 	
 	public void deleteItem(InventorySlotType slotType, int slot, int count) {
@@ -278,7 +279,7 @@ public class Inventory {
 			for (PackageItemData data : packageDef.getItems()) {
 				Item created = new Item(data.getItemId());
 				created.setCount(data.getCount());
-				getInventoryTabByType(InventorySlotType.NORMAL).addItem(created);
+				this.addItem(created);
 				openedItems.add(created);
 			}
 			
