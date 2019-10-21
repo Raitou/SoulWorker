@@ -17,12 +17,13 @@ import dev.spiritworker.game.data.def.ItemDef;
 
 public class Tools {
 	public static void main(String[] args) {
-		dumpItemScripts();
-		//dumpMazeInfo();
+		SpiritWorker.loadConfig();
+		//dumpItemScripts();
+		dumpMazeInfo();
 	}
 	
 	public static void dumpMazeInfo() {
-		File file = new File(SpiritWorker.getConfig().RESOURCE_FOLDER + "Maze_Info.res");
+		File file = new File(SpiritWorker.getConfig().RESOURCE_FOLDER + "tb_Maze_Info.res");
 		
 		try (FileInputStream fis = new FileInputStream(file); DataInputStream dis = new DataInputStream(fis)) {
 			byte[] bytes = new byte[(int) file.length()];

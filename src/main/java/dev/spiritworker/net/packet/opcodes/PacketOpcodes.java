@@ -28,6 +28,7 @@ public class PacketOpcodes {
 	public static final int ClientEnterGameServer = 0x0313;
 	public static final int ClientSelectCharacter = 0x0347;
 	public static final int ClientRequestLogout = 0x0360;
+	public static final int ClientViewPlayerInfo = 0x0375;
 	
 	public static final int CurrentServerDate = 0x0403;
 	public static final int CurrentServerVersion = 0x0404;
@@ -45,12 +46,13 @@ public class PacketOpcodes {
 	public static final int ClientCharacterUpdate = 0x0334; // Guessed
 	public static final int ClientCharacterUpdateSpecialOptionList = 0x0347; // Profile info request?
 	
-
+	public static final int ClientJoinMap = 0x0402;
 	public static final int ClientPlayersRequest = 0x0406; //?
 	public static final int ClientPlayerSpawn = 0x0411; // Spawns another player on client
 	public static final int ClientPlayerRemove = 0x0412; // Removes player on client
 	public static final int ClientPlayersInfo = 0x0421;
 	public static final int ClientNpcsInfo = 0x0422;
+	public static final int ClientCreateMaze = 0x0441;
 	public static final int Unknown = 0444;
 	
 	public static final int ClientMovementMove = 0x0501;
@@ -90,6 +92,8 @@ public class PacketOpcodes {
 	public static final int ClientShopBuy = 0x0901;
 	public static final int ClientShopSell = 0x0902;
 	
+	public static final int ClientLeaveMaze = 0x1123;
+	
 	public static final int ClientPartyInvite = 0x1201;
 	public static final int ClientPartyAccept = 0x1202;
 	public static final int ClientPartyChangeMaster = 0x1203;
@@ -112,4 +116,5 @@ public class PacketOpcodes {
 	public static final int ClientGestureSlotUpdate = 0x2303;
 	
 	public static final int ClientChannelInfo = 0xF101;
+	
 }
