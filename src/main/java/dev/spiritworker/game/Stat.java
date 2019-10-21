@@ -27,7 +27,7 @@ public class Stat {
 		return characterStats;
 	}
 	
-	public float getValue() {
+	public float get() {
 		return value;
 	}
 	
@@ -35,15 +35,7 @@ public class Stat {
 		return (int) this.value;
 	}
 
-	public void updateValue(float value) {
-		if (this.value == value) {
-			return;
-		}
-		this.value = value;
-		this.getCharacterStats().getCharacter().getSession().sendPacket(PacketBuilder.sendClientCharacterUpdate(getCharacterStats().getCharacter(), this));
-	}
-
-	public void setValue(float value) {
+	public void set(float value) {
 		if (this.value == value) {
 			return;
 		}
@@ -51,12 +43,20 @@ public class Stat {
 		this.updated = true;
 	}
 	
+	public void setAndUpdate(float value) {
+		if (this.value == value) {
+			return;
+		}
+		this.value = value;
+		this.getCharacterStats().getCharacter().getSession().sendPacket(PacketBuilder.sendClientCharacterUpdate(getCharacterStats().getCharacter(), this));
+	}
+	
 	public boolean isUpdated() {
 		return this.updated;
 	}
 
 	public void write(PacketWriter p) {
-		p.writeFloat(getValue());
+		p.writeFloat(get());
 		p.writeUint16(getId());
 		this.updated = false;
 	}

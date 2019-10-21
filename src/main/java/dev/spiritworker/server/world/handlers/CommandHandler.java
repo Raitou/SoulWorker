@@ -4,6 +4,7 @@ import java.lang.reflect.Modifier;
 import java.util.HashMap;
 
 import dev.spiritworker.game.GameCharacter;
+import dev.spiritworker.game.Stat;
 import dev.spiritworker.game.data.SoulWorker;
 import dev.spiritworker.game.inventory.InventorySlotType;
 import dev.spiritworker.game.inventory.InventoryTab;
@@ -136,10 +137,10 @@ public class CommandHandler {
 			character.getInventory().addItem(new Item(440015401));
 		}
 	}
-	/*
-	public static class Stat extends PlayerCommand {
+
+	public static class ChangeStat extends PlayerCommand {
 		
-		public Stat() {
+		public ChangeStat() {
 			this.setLevel(0);
 		}
 
@@ -161,8 +162,13 @@ public class CommandHandler {
 				value = 1;
 			}
 			
-			character.getMap().broadcastPacket(PacketBuilder.sendClientCharacterUpdate(character, type, value));
+			Stat stat = character.getStats().getMap().get(type);
+			if (stat != null) {
+				stat.set(value);
+				character.getMap().broadcastPacket(PacketBuilder.sendClientCharacterUpdate(character, stat));
+			}
+			
 		}
 	}
-	*/
+
 }

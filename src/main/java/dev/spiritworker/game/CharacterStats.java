@@ -75,7 +75,7 @@ public class CharacterStats {
 	
 	public void recalc() {
 		float hpMax = 850 + (character.getLevel() * 300);
-		float hp = Math.min(this.hp.getValue(), hpMax);
+		float hp = Math.min(this.hp.get(), hpMax);
 		float defence = 100;
 		float stamina = 100;
 		float attackMin = 10; // Filler
@@ -99,14 +99,14 @@ public class CharacterStats {
 		}
 		
 		// Update
-		this.hp.setValue(hp);
-		this.hpMax.setValue(hpMax);
-		this.defence.setValue(defence);
-		this.stamina.setValue(stamina);
-		this.attackMin.setValue(attackMin);
-		this.attackMax.setValue(attackMax);
-		this.attackSpeed.setValue(attackSpeed);
-		this.moveSpeed.setValue(moveSpeed);
+		this.hp.set(hp);
+		this.hpMax.set(hpMax);
+		this.defence.set(defence);
+		this.stamina.set(stamina);
+		this.attackMin.set(attackMin);
+		this.attackMax.set(attackMax);
+		this.attackSpeed.set(attackSpeed);
+		this.moveSpeed.set(moveSpeed);
 		
 		// Sync to client
 		this.getCharacter().getSession().sendPacket(PacketBuilder.sendClientCharacterUpdate(this));
