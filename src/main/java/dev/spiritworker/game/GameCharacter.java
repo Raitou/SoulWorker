@@ -424,8 +424,8 @@ public class GameCharacter {
 				p.writeInt32(item.getItemId()); // Equipped item id
 				p.writeUint32(item.getDyeColor());
 			} else {
-				p.writeInt32(-1); // ?
-				p.writeInt32(-1); // ?
+				p.writeInt32(-1);
+				p.writeInt32(-1);
 				p.writeInt32(-1); // Equipped item id
 				p.writeUint32(0);
 			}
@@ -436,7 +436,7 @@ public class GameCharacter {
 		}
 	}
 	
-	public void writeExtraData(PacketWriter p) {
+	public void writeMetaData(PacketWriter p) {
 		p.writeUint32(0); // Unknown
 		p.writeUint32(0); // 1st Title 
 		p.writeUint32(0); // 2nd Title
@@ -472,5 +472,18 @@ public class GameCharacter {
 		p.writeFloat(this.angle); // Rotation?
 		p.writeFloat(0); // Unknown
 		p.writeFloat(0); // Unknown
+	}
+
+	public void writePersonalData(PacketWriter p) {
+		p.writeUint32(this.getExp()); // Exp
+		p.writeUint64(this.getMoney()); // Money (Zenny)
+		p.writeUint32(0); // Unknown
+		p.writeEmpty(8);
+		p.writeUint64(this.getBp()); // BP
+		p.writeUint64(this.getEther()); // Ether
+		p.writeUint64(0); // Unknown
+		p.writeString8(String.valueOf(this.getSession().getAccountId()));
+		p.writeEmpty(15);
+		p.writeUint8(1); // Unknown
 	}
 }

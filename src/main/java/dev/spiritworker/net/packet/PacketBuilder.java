@@ -96,49 +96,10 @@ public class PacketBuilder {
 		
 		for (int i = 0; i < session.getCharacters().size(); i++) {
 			GameCharacter character = session.getCharacters().get(i);
-			p.writeUint32(character.getId());
-			p.writeString16(character.getName());
-			p.writeUint8(character.getType());
-			p.writeUint8(0); // Class advancement??
-			p.writeUint32(0); // Unknown
-			p.writeUint16(character.getHairStyle());
-			p.writeUint16(character.getHairColor());
-			p.writeUint16(character.getEyeColor());
-			p.writeUint16(character.getSkinColor());
-			p.writeUint16(character.getEquippedHairStyle());
-			p.writeUint16(character.getEquippedHairColor());
-			p.writeUint16(character.getEquippedSkinColor());
-			p.writeUint16(character.getEquippedEyeColor());
-			p.writeUint16(character.getLevel());
-			p.writeEmpty(10); // Titles go here??
+			character.writeMainData(p);
+			character.writeCosmetics(p);
 			
-			// Current weapon
-			Item weapon = character.getInventory().getWeapon();
-			p.writeInt32(weapon != null ? weapon.getItemId() : -1); // Weapon item id
-			p.writeUint8(0); // Unknown
-			p.writeInt32(-1); // Unknown
-			
-			// Equipment
-			for (int e = 0; e < 13; e++) {
-				Item item = character.getInventory().getCosmeticItems().getItemAt(e);
-				if (item != null) {
-					p.writeInt32(item.getUniqueId()); // ?
-					p.writeInt32(Item.UNKNOWN2); // ?
-					p.writeInt32(item.getItemId()); // Equipped item id
-					p.writeUint32(item.getDyeColor());
-				} else {
-					p.writeInt32(-1); // ?
-					p.writeInt32(-1); // ?
-					p.writeInt32(-1); // Equipped item id
-					p.writeUint32(0);
-				}
-				p.writeInt32(-1);
-				p.writeInt32(-1);
-				p.writeInt32(-1); 
-				p.writeUint32(0);
-			}
-			
-			// 
+			// Unnecessary
 			p.writeEmpty(62);
 			p.writeFloat(1f);
 			p.writeFloat(1f);
@@ -292,17 +253,8 @@ public class PacketBuilder {
 		
 		character.writeMainData(p);
 		character.writeCosmetics(p);
-		character.writeExtraData(p);
-		p.writeUint32(character.getExp()); // Exp
-		p.writeUint64(character.getMoney()); // Money (Zenny)
-		p.writeUint32(0); // Unknown
-		p.writeEmpty(8);
-		p.writeUint64(character.getBp()); // BP
-		p.writeUint64(character.getEther()); // Ether
-		p.writeUint64(0); // Unknown
-		p.writeString8(String.valueOf(session.getAccountId()));
-		p.writeEmpty(15);
-		p.writeUint8(1); // Unknown
+		character.writeMetaData(p);
+		character.writePersonalData(p);
 		
 		return p.getPacket();
 	}
@@ -620,7 +572,7 @@ public class PacketBuilder {
 		
 		character.writeMainData(p);
 		character.writeCosmetics(p);
-		character.writeExtraData(p);
+		character.writeMetaData(p);
 		
 		return p.getPacket();
 	}
@@ -643,7 +595,7 @@ public class PacketBuilder {
 		for (GameCharacter player : otherPlayers) {
 			player.writeMainData(p);
 			player.writeCosmetics(p);
-			player.writeExtraData(p);
+			player.writeMetaData(p);
 		}
 		
 		return p.getPacket();
