@@ -275,6 +275,9 @@ public class WorldPacketHandler {
 		// TODO Send 0x0670 (skills) packet here
 		session.trySendPacket(FileUtils.read(SpiritWorker.getConfig().PACKETS_FOLDER + "skills.packet")); // 0x0670
 		session.sendPacket(PacketBuilder.sendClientGestureSlotUpdate(session.getCharacter()));
+		
+		// Recalc stats
+		session.getCharacter().getStats().recalc();
 	}
 	
 	private static void handleClientRequestLogout(WorldSession session, ByteBuffer packet) {

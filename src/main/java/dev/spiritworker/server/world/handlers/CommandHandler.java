@@ -8,6 +8,7 @@ import dev.spiritworker.game.data.SoulWorker;
 import dev.spiritworker.game.inventory.InventorySlotType;
 import dev.spiritworker.game.inventory.InventoryTab;
 import dev.spiritworker.game.inventory.Item;
+import dev.spiritworker.net.packet.PacketBuilder;
 
 public class CommandHandler {
 	private static HashMap<String, PlayerCommand> list = new HashMap<String, PlayerCommand>();
@@ -135,4 +136,33 @@ public class CommandHandler {
 			character.getInventory().addItem(new Item(440015401));
 		}
 	}
+	/*
+	public static class Stat extends PlayerCommand {
+		
+		public Stat() {
+			this.setLevel(0);
+		}
+
+		@Override
+		public void execute(GameCharacter character, String raw) {
+			String[] split = raw.split(" ");
+			int type = 0;
+			float value = 1.0f;
+			
+			try {
+				type = Integer.parseInt(split[0]);
+			} catch (Exception e) {
+				type = 0;
+			}
+			
+			try {
+				value = Float.parseFloat(split[1]);
+			} catch (Exception e) {
+				value = 1;
+			}
+			
+			character.getMap().broadcastPacket(PacketBuilder.sendClientCharacterUpdate(character, type, value));
+		}
+	}
+	*/
 }

@@ -81,28 +81,4 @@ public class InventoryTab extends BaseInventoryTab {
 		}
 		return -1;
 	}
-	
-	public synchronized Item deleteItem(int slot, int count) {
-		// Sanity check
-		if (!isValidItemSlot(slot)) {
-			return null;
-		}
-		
-		// Get item from array and delete
-		if (getItems()[slot] != null) {
-			Item item = getItems()[slot];
-			item.setCount(item.getCount() - count);
-			item.save();
-			if (item.getCount() <= 0) {
-				getItems()[slot] = null;
-				// Item fully deleted
-				getCharacter().getSession().sendPacket(PacketBuilder.sendClientItemBreak(getSlotType(), slot));
-			} else {
-				// Item count changed, send updated item count to client
-				getCharacter().getSession().sendPacket(PacketBuilder.sendClientItemUpdateCount(item));
-			}
-			return item;
-		}
-		return null;
-	}
 }

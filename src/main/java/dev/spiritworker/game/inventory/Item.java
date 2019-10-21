@@ -129,7 +129,7 @@ public class Item {
 	}
 	
 
-	private int getDefence() {
+	public int getDefence() {
 		return this.defence;
 	}
 	

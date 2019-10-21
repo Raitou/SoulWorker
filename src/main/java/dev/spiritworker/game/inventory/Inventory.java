@@ -82,7 +82,7 @@ public class Inventory {
 	}
 	
 	public void deleteItem(int slotType, int slot, int count) {
-		InventoryTab tab = getInventoryTabByType(slotType);
+		BaseInventoryTab tab = getTabByType(slotType);
 		if (tab != null) {
 			tab.deleteItem(slot, count);
 		}
@@ -140,12 +140,15 @@ public class Inventory {
 			}
 		}
 		
-		// TODO recalc stats here
-		/*
+		// Recalc stats
 		if (tab1.getSlotType() == InventorySlotType.EQUIPPED || tab2.getSlotType() == InventorySlotType.EQUIPPED) {
-			getCharacter().getSession().sendPacket(PacketBuilder.sendClientCharacterUpdate(getCharacter()));
+			getCharacter().getStats().recalc();
 		}
-		*/
+		try {
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public synchronized void divideItem(int slotTypeSrc, int slotSrc, int slotTypeDest, int slotDest, int count) {
@@ -301,10 +304,14 @@ public class Inventory {
 		
 		BaseInventoryTab tab = getTabByType(item.getTab());
 		if (tab != null) {
+			if (tab.getItemAt(item.getSlot()) != null) {
+				SpiritWorker.getLogger().error("Two items loaded at the same inventory spot!");
+				deleteItem(item.getTab(), item.getSlot(), item.getCount());
+			}
 			tab.putItem(item.getSlot(), item, false);
 		}
 	}
-	
+
 	public void loadCosmetics() {
 		List<Item> items;
 		

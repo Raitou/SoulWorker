@@ -1,6 +1,7 @@
 package dev.spiritworker.game.inventory;
 
 import dev.spiritworker.game.GameCharacter;
+import dev.spiritworker.net.packet.PacketBuilder;
 
 public abstract class BaseInventoryTab {
 	private final Inventory inventory;
@@ -16,7 +17,7 @@ public abstract class BaseInventoryTab {
 		return this.slotType;
 	}
 
-	public Item[] getItems() {
+	public synchronized Item[] getItems() {
 		return this.items;
 	}
 
@@ -59,6 +60,31 @@ public abstract class BaseInventoryTab {
 			if (item.getItemId() == id) {
 				return item;
 			}
+		}
+		return null;
+	}
+	
+	
+	public synchronized Item deleteItem(int slot, int count) {
+		// Sanity check
+		if (!isValidItemSlot(slot)) {
+			return null;
+		}
+		
+		// Get item from array and delete
+		if (getItems()[slot] != null) {
+			Item item = getItems()[slot];
+			item.setCount(item.getCount() - count);
+			item.save();
+			if (item.getCount() <= 0) {
+				getItems()[slot] = null;
+				// Item fully deleted
+				getCharacter().getSession().sendPacket(PacketBuilder.sendClientItemBreak(getSlotType(), slot));
+			} else {
+				// Item count changed, send updated item count to client
+				getCharacter().getSession().sendPacket(PacketBuilder.sendClientItemUpdateCount(item));
+			}
+			return item;
 		}
 		return null;
 	}

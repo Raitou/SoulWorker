@@ -2,12 +2,15 @@ package dev.spiritworker.net.packet;
 
 import java.net.InetSocketAddress;
 import java.time.LocalDateTime;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import dev.spiritworker.database.DatabaseHelper;
+import dev.spiritworker.game.CharacterStats;
 import dev.spiritworker.game.GameCharacter;
 import dev.spiritworker.game.GameMap;
+import dev.spiritworker.game.Stat;
 import dev.spiritworker.game.inventory.BaseInventoryTab;
 import dev.spiritworker.game.inventory.InventorySlotType;
 import dev.spiritworker.game.inventory.InventoryTab;
@@ -293,9 +296,7 @@ public class PacketBuilder {
 		p.writeUint32(character.getExp()); // Exp
 		p.writeUint64(character.getMoney()); // Money (Zenny)
 		p.writeUint32(0); // Unknown
-		p.writeBytes(new byte[] {
-			(byte) 0xbf, (byte) 0x3e, (byte) 0xff, (byte) 0xdf, (byte) 0x19, (byte) 0x6d, (byte) 0x3f, (byte) 0x1c
-		});
+		p.writeEmpty(8);
 		p.writeUint64(character.getBp()); // BP
 		p.writeUint64(character.getEther()); // Ether
 		p.writeUint64(0); // Unknown
@@ -538,13 +539,36 @@ public class PacketBuilder {
 		return p.getPacket();
 	}
 	
-	// TODO
-	public static byte[] sendClientCharacterUpdate(GameCharacter character) {
+	public static byte[] sendClientCharacterUpdate(GameCharacter character, Stat stat) {
 		PacketWriter p = new PacketWriter(PacketOpcodes.ClientCharacterUpdate);
 		
 		p.writeUint8(0);
 		p.writeUint32(character.getId());
+		p.writeUint8(1); // Amount of stats to update
+		stat.write(p);
 		
+		return p.getPacket();
+	}
+	
+	public static byte[] sendClientCharacterUpdate(CharacterStats stats) {
+		PacketWriter p = new PacketWriter(PacketOpcodes.ClientCharacterUpdate);
+		
+		List<Stat> toUpdate = new LinkedList<Stat>();
+		
+		for (Stat stat : stats.getMap().values()) {
+			if (!stat.isUpdated()) {
+				continue;
+			}
+			toUpdate.add(stat);
+		}
+		
+		p.writeUint8(0);
+		p.writeUint32(stats.getCharacter().getId());
+		p.writeUint8(toUpdate.size()); // Amount of stats to update
+		for (Stat stat : toUpdate) {
+			stat.write(p);
+		}
+
 		return p.getPacket();
 	}
 

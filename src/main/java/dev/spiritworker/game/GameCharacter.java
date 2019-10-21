@@ -58,11 +58,13 @@ public class GameCharacter {
 	private long ether;
 	private long bp;
 	
-	@Transient private Inventory inventory;
+	@Transient private final CharacterStats stats;
+	@Transient private final Inventory inventory;
 	@Transient private BankUpgradeData upgradeDataBank;
 	private InventoryUpgradeData upgradeData;
 	
 	public GameCharacter() {
+		this.stats = new CharacterStats(this);
 		this.inventory = new Inventory(this);
 		this.emotes = new int[Constants.MAX_EMOTE_SLOTS];
 		this.upgradeData = new InventoryUpgradeData();
@@ -318,6 +320,10 @@ public class GameCharacter {
 	public void setAngle(float angle) {
 		this.angle = angle;
 	}
+	
+	public CharacterStats getStats() {
+		return this.stats;
+	}
 
 	public Inventory getInventory() {
 		return inventory;
@@ -438,8 +444,8 @@ public class GameCharacter {
 		p.writeUint16(0); // Guild name (string16)
 		p.writeUint32(0); // Unknown
 		
-		p.writeUint32(1450); // Current Hp
-		p.writeUint32(1450); // Base Hp
+		p.writeUint32(getStats().getHp().getIntValue()); // Current Hp
+		p.writeUint32(getStats().getMaxHp().getIntValue()); // Base Hp
 		p.writeUint32(200); // Unknown
 		p.writeUint32(200); // Unknown
 		p.writeUint32(0); // Unknown
@@ -463,8 +469,8 @@ public class GameCharacter {
 		p.writeFloat(this.getPosition().getX()); // Position X
 		p.writeFloat(this.getPosition().getZ()); // Position Y
 		p.writeFloat(this.getPosition().getY()); // Position Z
-		p.writeFloat(-115.499969f); // Rotation?
-		p.writeFloat(507.5f); // Unknown
-		p.writeFloat(507.5f); // Unknown
+		p.writeFloat(this.angle); // Rotation?
+		p.writeFloat(0); // Unknown
+		p.writeFloat(0); // Unknown
 	}
 }
