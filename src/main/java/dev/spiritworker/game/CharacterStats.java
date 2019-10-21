@@ -42,7 +42,7 @@ public class CharacterStats {
 		this.staminaPercent = createStat(12);
 		this.stamina = createStat(14);
 		this.staminaRegen = createStat(15);
-		this.moveSpeed = createStat(15);
+		this.moveSpeed = createStat(18);
 		this.attackSpeed = createStat(19);
 		this.attackMin = createStat(20);
 		this.attackMax = createStat(21);
