@@ -272,8 +272,7 @@ public class WorldPacketHandler {
 
 	private static void handleClientInfoRequest(WorldSession session, ByteBuffer packet) {
 		session.sendPacket(PacketBuilder.sendClientCharacterInfo(session, session.getCharacter()));
-		// TODO Send 0x0670 (skills) packet here
-		session.trySendPacket(FileUtils.read(SpiritWorker.getConfig().PACKETS_FOLDER + "skills.packet")); // 0x0670
+		session.sendPacket(PacketBuilder.sendClientSkillsInfo(session.getCharacter()));
 		session.sendPacket(PacketBuilder.sendClientGestureSlotUpdate(session.getCharacter()));
 		
 		// Recalc stats
@@ -326,6 +325,9 @@ public class WorldPacketHandler {
 
 		// Load inventory
 		character.getInventory().loadItems();
+		
+		// Load skills
+		character.loadSkills();
 		
 		// Join map
 		GameMap map = session.getServer().getDistrictById(character.getMapId());

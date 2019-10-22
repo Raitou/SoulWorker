@@ -19,6 +19,6 @@ public class Utils {
 	}
 
 	public static int getAppearanceType(int appearance) {
-		return (int) Math.floor((float) appearance / 1000f);
+		return (int) Math.floor(appearance / 1000f);
 	}
 }

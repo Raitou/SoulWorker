@@ -2,7 +2,6 @@ package dev.spiritworker.game;
 
 import dev.spiritworker.Constants;
 import dev.spiritworker.database.DatabaseHelper;
-import dev.spiritworker.game.data.SoulWorker;
 import dev.spiritworker.game.inventory.Inventory;
 import dev.spiritworker.game.inventory.Item;
 import dev.spiritworker.game.inventory.data.BankUpgradeData;
@@ -48,6 +47,10 @@ public class GameCharacter {
 	private short skinColorEquipped;
 	private Set<Short> appearances;
 	
+	@Transient private CharacterSkills skills;
+	private int usedSkillPoints;
+	private int skillPoints;
+	
 	private Position position;
 	private float angle;
 	
@@ -57,13 +60,14 @@ public class GameCharacter {
 	private long money;
 	private long ether;
 	private long bp;
-	
+
 	@Transient private final CharacterStats stats;
 	@Transient private final Inventory inventory;
 	@Transient private BankUpgradeData upgradeDataBank;
 	private InventoryUpgradeData upgradeData;
 	
 	public GameCharacter() {
+		this.skills = new CharacterSkills();
 		this.stats = new CharacterStats(this);
 		this.inventory = new Inventory(this);
 		this.emotes = new int[Constants.MAX_EMOTE_SLOTS];
@@ -261,6 +265,22 @@ public class GameCharacter {
 		this.appearances.add((short) a);
 	}
 	
+	public int getUsedSkillPoints() {
+		return usedSkillPoints;
+	}
+
+	public void setUsedSkillPoints(int usedSkillPoints) {
+		this.usedSkillPoints = usedSkillPoints;
+	}
+
+	public int getSkillPoints() {
+		return skillPoints;
+	}
+
+	public void setSkillPoints(int skillPoints) {
+		this.skillPoints = skillPoints;
+	}
+	
 	public int[] getEmotes() {
 		return this.emotes;
 	}
@@ -319,6 +339,22 @@ public class GameCharacter {
 	
 	public void setAngle(float angle) {
 		this.angle = angle;
+	}
+	
+	public CharacterSkills getSkills() {
+		return this.skills;
+	}
+	
+	// TODO load from db
+	public void loadSkills() {
+		CharacterClass c = CharacterClass.getCharacterClass(this);
+		for (int skillId : c.getSkills()) {
+			Skill skill = new Skill(skillId);
+			this.getSkills().addSkill(skill);
+		}
+		for (int column = 0; column < getSkills().getLoadout().length; column++) {
+			System.arraycopy(c.getLoadout()[column], 0, getSkills().getLoadout()[column], 0, c.getLoadout()[column].length);
+		}
 	}
 	
 	public CharacterStats getStats() {

@@ -10,6 +10,7 @@ import dev.spiritworker.SpiritWorker;
 import dev.spiritworker.game.data.def.DistrictDef;
 import dev.spiritworker.game.data.def.ItemDef;
 import dev.spiritworker.game.data.def.PackageDef;
+import dev.spiritworker.game.data.def.SkillDef;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 
 public class ResourceLoader {
@@ -17,6 +18,7 @@ public class ResourceLoader {
 	public static void loadDefinitions() {
 		loadFromResource("tb_Item.res", ItemDef.class, SoulWorker.getItemDefs());
 		loadFromResource("tb_Item_Package.res", PackageDef.class, SoulWorker.getPackageDefs());
+		loadFromResource("tb_Skill.res", SkillDef.class, SoulWorker.getSkillDefs());
 		loadFromResourceShort("tb_district.res", DistrictDef.class, SoulWorker.getDistrictDefs());
 	}
 	

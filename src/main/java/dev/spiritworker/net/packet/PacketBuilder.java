@@ -6,10 +6,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import dev.spiritworker.Constants;
 import dev.spiritworker.database.DatabaseHelper;
 import dev.spiritworker.game.CharacterStats;
 import dev.spiritworker.game.GameCharacter;
 import dev.spiritworker.game.GameMap;
+import dev.spiritworker.game.Skill;
 import dev.spiritworker.game.Stat;
 import dev.spiritworker.game.inventory.BaseInventoryTab;
 import dev.spiritworker.game.inventory.InventorySlotType;
@@ -704,6 +706,44 @@ public class PacketBuilder {
 		p.writeUint32(item.getDyeColor());
 		p.writeUint32(4); // Unknown
 		p.writeUint32(0); // Unknown
+		
+		return p.getPacket();
+	}
+	
+	public static byte[] sendClientSkillsInfo(GameCharacter character) {
+		PacketWriter p = new PacketWriter(PacketOpcodes.ClientSkillsInfo);
+		
+		p.writeUint32(0); // Unknown
+		p.writeUint16(character.getUsedSkillPoints()); // Used skill points
+		p.writeUint16(character.getSkillPoints()); // Current skill points
+		p.writeUint16(3); // Unknown
+		p.writeUint8(character.getSkills().getMap().size()); // Number of skills
+		
+		// Write skills here
+		for (Skill skill : character.getSkills().getMap().values()) {
+			skill.write(p);
+		}
+		
+		// Amount of character loadout columns (should be 6)
+		p.writeUint8(Constants.LOADOUT_COLUMNS);
+		
+		// Loadout
+		for (int column = 0; column < Constants.LOADOUT_COLUMNS; column++) {
+			p.writeUint16(column); // Loadout column #
+			for (int i = 0; i < Constants.LOADOUT_COLUMN_SIZE; i++) {
+				Skill skill = character.getSkills().getSkillInLoadout(column, i);
+				if (skill != null) {
+					p.writeUint32(skill.getId());
+				} else {
+					p.writeUint32(0);
+				}
+			}
+			p.writeUint32(0); // Seems to be padding for now
+		}
+		
+		// 2 Unknowns at the end
+		p.writeUint32(0);
+		p.writeUint32(0);
 		
 		return p.getPacket();
 	}

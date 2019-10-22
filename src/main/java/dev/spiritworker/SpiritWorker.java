@@ -16,7 +16,6 @@ import dev.spiritworker.database.DatabaseManager;
 import dev.spiritworker.game.data.ResourceLoader;
 import dev.spiritworker.server.auth.AuthServer;
 import dev.spiritworker.server.game.GameServer;
-import dev.spiritworker.util.FileUtils;
 
 public class SpiritWorker {
 	private static Logger log = (Logger) LoggerFactory.getLogger(SpiritWorker.class);

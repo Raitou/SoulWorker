@@ -2,7 +2,6 @@ package dev.spiritworker.game.data.def;
 
 import java.nio.ByteBuffer;
 
-import dev.spiritworker.SpiritWorker;
 import dev.spiritworker.game.data.ResourceDef;
 
 public class DistrictDef extends ResourceDef {
