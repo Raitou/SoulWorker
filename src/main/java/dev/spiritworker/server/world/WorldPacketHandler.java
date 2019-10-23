@@ -9,6 +9,8 @@ import dev.spiritworker.database.DatabaseHelper;
 import dev.spiritworker.game.AccessKey;
 import dev.spiritworker.game.GameCharacter;
 import dev.spiritworker.game.GameMap;
+import dev.spiritworker.game.data.SoulWorker;
+import dev.spiritworker.game.data.def.SkillDef;
 import dev.spiritworker.game.inventory.InventorySlotType;
 import dev.spiritworker.game.inventory.InventoryTab;
 import dev.spiritworker.net.packet.PacketBuilder;
@@ -100,6 +102,9 @@ public class WorldPacketHandler {
 			case PacketOpcodes.ClientAppearancePick:
 				handleClientAppearancePick(session, packet);
 				break;
+			case PacketOpcodes.ClientUpdateSkill:
+				handleClientUpdateSkill(session, packet);
+				break;
 			case PacketOpcodes.ClientChannelInfo:
 				handleClientChannelInfo(session);
 				break;
@@ -112,6 +117,15 @@ public class WorldPacketHandler {
 				}
 				break;
 		}
+	}
+
+	private static void handleClientUpdateSkill(WorldSession session, ByteBuffer packet) {
+		int skill = packet.getInt();
+		packet.getInt();
+		int unk1 = packet.getInt();
+		int unk2 = packet.getInt();
+		
+		session.getCharacter().getSkills().upgradeSkill(skill, unk1, unk2);
 	}
 
 	private static void handleClientItemDye(WorldSession session, ByteBuffer packet) {

@@ -26,6 +26,7 @@ import dev.spiritworker.server.game.GameSession;
 import dev.spiritworker.server.world.WorldServer;
 import dev.spiritworker.server.world.WorldSession;
 import dev.spiritworker.util.ServerData;
+import it.unimi.dsi.fastutil.ints.IntSet;
 
 public class PacketBuilder {
 
@@ -744,6 +745,56 @@ public class PacketBuilder {
 		// 2 Unknowns at the end
 		p.writeUint32(0);
 		p.writeUint32(0);
+		
+		return p.getPacket();
+	}
+	
+	public static byte[] sendClientUpdateSkill(Skill skill, int unk1, int unk2) {
+		PacketWriter p = new PacketWriter(PacketOpcodes.ClientUpdateSkill);
+		
+		skill.write(p);
+		p.writeUint8(0);
+		p.writeUint8(1);
+		p.writeUint32(unk1);
+		p.writeUint8(68);
+		p.writeUint32(unk2);
+		p.writeEmpty(48);
+		
+		return p.getPacket();
+	}
+	
+	public static byte[] sendClientUpdateSkillLoadout(GameCharacter character, IntSet updatedColumns) {
+		PacketWriter p = new PacketWriter(PacketOpcodes.ClientUpdateSkillLoadout);
+		
+		// Unknowns
+		p.writeUint8(1);
+		p.writeUint8(2);
+		
+		// Amount of character loadout columns to update
+		p.writeUint8(updatedColumns.size());
+		
+		// Loadout
+		for (int column : updatedColumns) {
+			p.writeUint16(column); // Loadout column #
+			for (int i = 0; i < Constants.LOADOUT_COLUMN_SIZE; i++) {
+				Skill skill = character.getSkills().getSkillInLoadout(column, i);
+				if (skill != null) {
+					p.writeUint32(skill.getId());
+				} else {
+					p.writeUint32(0);
+				}
+			}
+			p.writeUint32(0); // Seems to be padding for now
+		}
+
+		return p.getPacket();
+	}
+	
+	public static byte[] sendClientUpdateSkillPoints(GameCharacter character) {
+		PacketWriter p = new PacketWriter(PacketOpcodes.ClientUpdateSkillPoints);
+		
+		p.writeUint16(character.getUsedSkillPoints()); // Used skill points
+		p.writeUint16(character.getSkillPoints()); // Current skill points
 		
 		return p.getPacket();
 	}
