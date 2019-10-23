@@ -37,6 +37,14 @@ public class DistrictDef extends ResourceDef {
 		buf.get();
 	}
 	
+	public float getUnk1() {
+		return this.i1;
+	}
+	
+	public float getUnk2() {
+		return this.i2;
+	}
+	
 	@Override
 	public String toString() {
 		return "[" + this.getId() + "] " + this.name + " (" + this.i1 + " , " + this.i2 + ")";

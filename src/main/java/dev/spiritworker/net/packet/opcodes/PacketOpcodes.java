@@ -47,11 +47,13 @@ public class PacketOpcodes {
 	public static final int ClientCharacterUpdateSpecialOptionList = 0x0347; // Profile info request?
 	
 	public static final int ClientJoinMap = 0x0402;
+	public static final int ClientUpdatePosition = 0x0408; 
 	public static final int ClientPlayersRequest = 0x0406; //?
 	public static final int ClientPlayerSpawn = 0x0411; // Spawns another player on client
 	public static final int ClientPlayerRemove = 0x0412; // Removes player on client
 	public static final int ClientPlayersInfo = 0x0421;
 	public static final int ClientNpcsInfo = 0x0422;
+	public static final int ClientResetPositionRequest = 0x0433;
 	public static final int ClientCreateMaze = 0x0441;
 	public static final int Unknown = 0444;
 	

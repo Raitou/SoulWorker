@@ -863,6 +863,19 @@ public class PacketBuilder {
 		
 		return p.getPacket();
 	}
+	
+	public static byte[] sendClientUpdatePosition(GameCharacter character) {
+		PacketWriter p = new PacketWriter(PacketOpcodes.ClientUpdatePosition);
+		
+		p.writeUint32(character.getId());
+		p.writeUint8(0);
+		p.writeFloat(character.getPosition().getX());
+		p.writeFloat(character.getPosition().getY());
+		p.writeFloat(character.getPosition().getZ());
+		p.writeFloat(character.getAngle());
+		
+		return p.getPacket();
+	}
 
 	public static byte[] sendClientActivateSkillResponse(int unk1) {
 		PacketWriter p = new PacketWriter(PacketOpcodes.ClientActivateSkillResponse);

@@ -119,6 +119,9 @@ public class WorldPacketHandler {
 			case PacketOpcodes.ClientLeaveMaze:
 				handleClientLeaveMaze(session, packet);
 				break;
+			case PacketOpcodes.ClientResetPositionRequest:
+				handleClientResetPositionRequest(session);
+				break;
 			case PacketOpcodes.ClientRequestLogout: // Called when the client tries to go back to the server list from the character list screen
 				handleClientRequestLogout(session, packet);
 				break;
@@ -130,13 +133,21 @@ public class WorldPacketHandler {
 		}
 	}
 
+	private static void handleClientResetPositionRequest(WorldSession session) {
+		if (session.getCharacter().getMap() instanceof District) {
+			District district = (District) session.getCharacter().getMap();
+			session.getCharacter().getPosition().set(district.getDef().getUnk1(), district.getDef().getUnk2(), 100);
+			session.sendPacket(PacketBuilder.sendClientUpdatePosition(session.getCharacter()));
+		}
+	}
+
 	private static void handleClientActivateSkill(WorldSession session, ByteBuffer packet) {
 		// TODO Auto-generated method stub
 		int skillId = packet.getInt();
 		int characterId = packet.getInt();
 		float x = packet.getFloat();
-		float y = packet.getFloat();
 		float z = packet.getFloat();
+		float y = packet.getFloat();
 		float angle = packet.getFloat();
 		
 		// Unknowns
