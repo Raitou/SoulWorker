@@ -64,6 +64,8 @@ public class PacketOpcodes {
 	public static final int ClientCancelGestureRequest = 0x0532;
 	public static final int ClientCancelGesture = 0x0533;
 	
+	public static final int ClientActivateSkill = 0x0608;
+	public static final int ClientActivateSkillResponse = 0x0609;
 	public static final int ClientSkillsInfo = 0x0670;
 	public static final int ClientUpdateSkill = 0x0671;
 	public static final int ClientUpdateSkillLoadout = 0x0675;

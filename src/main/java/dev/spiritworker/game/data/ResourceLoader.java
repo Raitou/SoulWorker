@@ -6,12 +6,11 @@ import java.io.FileInputStream;
 import java.lang.reflect.Constructor;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import dev.spiritworker.SpiritWorker;
-import dev.spiritworker.game.data.def.DistrictDef;
-import dev.spiritworker.game.data.def.ItemDef;
-import dev.spiritworker.game.data.def.PackageDef;
-import dev.spiritworker.game.data.def.SkillDef;
+
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+
+import dev.spiritworker.SpiritWorker;
+import dev.spiritworker.game.data.def.*;
 
 public class ResourceLoader {
 	
@@ -20,6 +19,7 @@ public class ResourceLoader {
 		loadFromResource("tb_Item_Package.res", PackageDef.class, SoulWorker.getPackageDefs());
 		loadFromResource("tb_Skill.res", SkillDef.class, SoulWorker.getSkillDefs());
 		loadFromResourceShort("tb_district.res", DistrictDef.class, SoulWorker.getDistrictDefs());
+		loadFromResourceShort("tb_Maze_Info.res", MazeDef.class, SoulWorker.getMazeDefs());
 	}
 	
 	@SuppressWarnings("rawtypes")

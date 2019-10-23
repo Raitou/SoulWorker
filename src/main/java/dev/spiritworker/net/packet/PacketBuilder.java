@@ -11,6 +11,7 @@ import dev.spiritworker.database.DatabaseHelper;
 import dev.spiritworker.game.CharacterStats;
 import dev.spiritworker.game.GameCharacter;
 import dev.spiritworker.game.GameMap;
+import dev.spiritworker.game.Maze;
 import dev.spiritworker.game.Skill;
 import dev.spiritworker.game.Stat;
 import dev.spiritworker.game.inventory.BaseInventoryTab;
@@ -26,6 +27,7 @@ import dev.spiritworker.server.game.GameSession;
 import dev.spiritworker.server.world.WorldServer;
 import dev.spiritworker.server.world.WorldSession;
 import dev.spiritworker.util.ServerData;
+import dev.spiritworker.util.Utils;
 import it.unimi.dsi.fastutil.ints.IntSet;
 
 public class PacketBuilder {
@@ -795,6 +797,81 @@ public class PacketBuilder {
 		
 		p.writeUint16(character.getUsedSkillPoints()); // Used skill points
 		p.writeUint16(character.getSkillPoints()); // Current skill points
+		
+		return p.getPacket();
+	}
+	
+	public static byte[] sendClientJoinMap(GameCharacter character, GameMap map) {
+		PacketWriter p = new PacketWriter(PacketOpcodes.ClientJoinMap);
+		
+		p.writeUint32(character.getId());	// Character id
+		p.writeUint32(0); 
+		
+		p.writeBytes(new byte[] {
+			(byte) 0x01, (byte) 0x02, (byte) 0x02, (byte) 0x00,
+		});
+		
+		p.writeUint64(0);	// Unknown
+		p.writeUint32(16777317);	// Unknown
+		p.writeUint16(character.getMapId());
+		p.writeUint16(1);
+		p.writeUint64(0);	// Unknown
+		p.writeString8(((WorldSession) character.getSession()).getAddress().getHostString());
+		p.writeUint16(((WorldSession) character.getSession()).getServer().getAddress().getPort());
+		p.writeInt16(-1);
+		p.writeUint32(0);
+		p.writeUint32(0);
+		p.writeFloat(character.getPosition().getX()); // Coords probably
+		p.writeFloat(character.getPosition().getZ());
+		p.writeFloat(character.getPosition().getY());
+		p.writeFloat(character.getAngle()); // Angle
+		p.writeEmpty(2);
+		p.writeUint8(4);
+		p.writeEmpty(10);
+		p.writeUint8(1);
+		
+		return p.getPacket();
+	}
+	
+	public static byte[] sendClientEnterMaze(GameCharacter character, Maze maze) {
+		PacketWriter p = new PacketWriter(PacketOpcodes.ClientJoinMap);
+		
+		p.writeUint32(character.getId());	// Character id
+		p.writeUint32(Utils.randomRange(1, Integer.MAX_VALUE)); // Maze unique id?
+		
+		p.writeBytes(new byte[] {
+				(byte) 0x01, (byte) 0x02, (byte) 0x02, (byte) 0x00,
+		});
+		
+		p.writeUint32(2121101);	// Unknown
+		p.writeUint32(0);
+		p.writeUint32(59939);	// Unknown
+		p.writeUint16(21211); // Maze map id
+		p.writeUint16(1);
+		p.writeUint64(0);	// Unknown
+		p.writeString8(((WorldSession) character.getSession()).getServer().getAddress().getHostString());
+		p.writeUint16(((WorldSession) character.getSession()).getServer().getAddress().getPort());
+		p.writeInt16(-1);
+		p.writeUint32(0);
+		p.writeUint32(0);
+		p.writeFloat(9155); // X
+		p.writeFloat(25200); // Z
+		p.writeFloat(10); // Y
+		p.writeFloat(0); // Angle
+		p.writeEmpty(13);
+		p.writeUint8(1);
+		
+		return p.getPacket();
+	}
+
+	public static byte[] sendClientActivateSkillResponse(int unk1) {
+		PacketWriter p = new PacketWriter(PacketOpcodes.ClientActivateSkillResponse);
+		
+		p.writeEmpty(7);
+		p.writeUint32(50);
+		p.writeUint8(0x68);
+		p.writeUint32(unk1);
+		p.writeEmpty(48);
 		
 		return p.getPacket();
 	}
