@@ -67,7 +67,7 @@ public class GameCharacter {
 	private InventoryUpgradeData upgradeData;
 	
 	public GameCharacter() {
-		this.skills = new CharacterSkills();
+		this.skills = new CharacterSkills(this);
 		this.stats = new CharacterStats(this);
 		this.inventory = new Inventory(this);
 		this.emotes = new int[Constants.MAX_EMOTE_SLOTS];

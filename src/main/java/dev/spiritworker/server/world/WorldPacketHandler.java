@@ -7,8 +7,12 @@ import dev.spiritworker.Constants;
 import dev.spiritworker.SpiritWorker;
 import dev.spiritworker.database.DatabaseHelper;
 import dev.spiritworker.game.AccessKey;
+import dev.spiritworker.game.District;
 import dev.spiritworker.game.GameCharacter;
 import dev.spiritworker.game.GameMap;
+import dev.spiritworker.game.Maze;
+import dev.spiritworker.game.data.SoulWorker;
+import dev.spiritworker.game.data.def.SkillDef;
 import dev.spiritworker.game.inventory.InventorySlotType;
 import dev.spiritworker.game.inventory.InventoryTab;
 import dev.spiritworker.net.packet.PacketBuilder;
@@ -100,8 +104,20 @@ public class WorldPacketHandler {
 			case PacketOpcodes.ClientAppearancePick:
 				handleClientAppearancePick(session, packet);
 				break;
+			case PacketOpcodes.ClientActivateSkill:
+				handleClientActivateSkill(session, packet);
+				break;
+			case PacketOpcodes.ClientUpdateSkill:
+				handleClientUpdateSkill(session, packet);
+				break;
 			case PacketOpcodes.ClientChannelInfo:
 				handleClientChannelInfo(session);
+				break;
+			case PacketOpcodes.ClientCreateMaze:
+				handleClientCreateMaze(session, packet);
+				break;
+			case PacketOpcodes.ClientLeaveMaze:
+				handleClientLeaveMaze(session, packet);
 				break;
 			case PacketOpcodes.ClientRequestLogout: // Called when the client tries to go back to the server list from the character list screen
 				handleClientRequestLogout(session, packet);
@@ -112,6 +128,61 @@ public class WorldPacketHandler {
 				}
 				break;
 		}
+	}
+
+	private static void handleClientActivateSkill(WorldSession session, ByteBuffer packet) {
+		// TODO Auto-generated method stub
+		int skillId = packet.getInt();
+		int characterId = packet.getInt();
+		float x = packet.getFloat();
+		float y = packet.getFloat();
+		float z = packet.getFloat();
+		float angle = packet.getFloat();
+		
+		// Unknowns
+		packet.getInt();
+		packet.getInt();
+		packet.getInt();
+		packet.getInt();
+		packet.getInt();
+		packet.getInt();
+		
+		// 
+		int unk1 = packet.getInt();
+		
+		session.sendPacket(PacketBuilder.sendClientActivateSkillResponse(unk1));
+	}
+
+	private static void handleClientLeaveMaze(WorldSession session, ByteBuffer packet) {
+		if (!(session.getCharacter().getMap() instanceof Maze)) {
+			return;
+		}
+		
+		District district = session.getServer().getDistrictById(10003);
+		district.addCharacter(session.getCharacter());
+		session.getCharacter().getPosition().set(10000, 10000, 100);
+		
+		session.sendPacket(PacketBuilder.sendClientJoinMap(session.getCharacter(), district));
+	}
+
+	private static void handleClientCreateMaze(WorldSession session, ByteBuffer packet) {
+		// Unknown
+		packet.get();
+		packet.getInt();
+		packet.getInt();
+		packet.getInt();
+		int mazeId = packet.getShort();
+		
+		Maze maze = session.getServer().getMazeManager().createMaze(mazeId, session.getCharacter());
+	}
+
+	private static void handleClientUpdateSkill(WorldSession session, ByteBuffer packet) {
+		int skill = packet.getInt();
+		packet.getInt();
+		int unk1 = packet.getInt();
+		int unk2 = packet.getInt();
+		
+		session.getCharacter().getSkills().upgradeSkill(skill, unk1, unk2);
 	}
 
 	private static void handleClientItemDye(WorldSession session, ByteBuffer packet) {

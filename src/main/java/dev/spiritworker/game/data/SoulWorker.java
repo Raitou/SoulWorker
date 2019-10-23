@@ -9,6 +9,7 @@ public class SoulWorker {
 	private static Int2ObjectMap<PackageDef> packageDefs = new Int2ObjectOpenHashMap<PackageDef>();
 	private static Int2ObjectMap<DistrictDef> districtDefs = new Int2ObjectOpenHashMap<DistrictDef>();
 	private static Int2ObjectMap<SkillDef> skillDefs = new Int2ObjectOpenHashMap<SkillDef>();
+	private static Int2ObjectMap<MazeDef> mazeDefs = new Int2ObjectOpenHashMap<MazeDef>();
 	
 	public static Int2ObjectMap<ItemDef> getItemDefs() {
 		return itemDefs;
@@ -32,5 +33,9 @@ public class SoulWorker {
 
 	public static Int2ObjectMap<SkillDef> getSkillDefs() {
 		return skillDefs;
+	}
+
+	public static Int2ObjectMap<MazeDef> getMazeDefs() {
+		return mazeDefs;
 	}
 }

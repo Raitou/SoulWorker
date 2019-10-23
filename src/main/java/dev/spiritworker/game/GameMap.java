@@ -6,19 +6,19 @@ import java.util.Set;
 import dev.spiritworker.net.packet.PacketBuilder;
 
 public class GameMap {
-	private final int id;
+	private final int mapId;
 	private final Set<GameCharacter> characters;
 	
 	public GameMap(int id) {
-		this.id = id;
+		this.mapId = id;
 		this.characters = new HashSet<GameCharacter>();
 	}
 
 	public int getMapId() {
-		return id;
+		return mapId;
 	}
 	
-	public Set<GameCharacter> getCharacters() {
+	public synchronized Set<GameCharacter> getCharacters() {
 		return characters;
 	}
 
@@ -37,6 +37,9 @@ public class GameMap {
 		if (getCharacters().size() > 1) {
 			broadcastPacketFrom(character, PacketBuilder.sendClientPlayerSpawn(character));
 		}
+		
+		// Event
+		this.onEnter(character);
 	}
 	
 	public synchronized void removeCharacter(GameCharacter character) {
@@ -49,11 +52,14 @@ public class GameMap {
 		if (getCharacters().contains(character)) {
 			character.setMap(null);
 			getCharacters().remove(character);
-			
+		
 			// Broadcast
 			if (getCharacters().size() > 0) {
 				broadcastPacketFrom(character, PacketBuilder.sendClientPlayerRemove(character));
 			}
+			
+			// Event
+			this.onLeave(character);
 		}
 	}
 	
@@ -76,5 +82,13 @@ public class GameMap {
 		if (getCharacters().size() > 1) {
 			character.getSession().sendPacket(PacketBuilder.sendClientPlayersInfo(character, this));
 		}
+	}
+	
+	public void onEnter(GameCharacter character) {
+		
+	}
+	
+	public void onLeave(GameCharacter character) {
+		
 	}
 }

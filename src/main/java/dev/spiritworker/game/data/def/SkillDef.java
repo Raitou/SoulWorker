@@ -10,17 +10,17 @@ public class SkillDef extends ResourceDef {
 	public int v3;
 	public int skillRank;
 	public int v5;
-	public int v6;
+	private int type;
 	public int v7;
 	public int v8;
 	public int v9;
 	public int v10;
 	public int v11;
 	public int v12;
-	public int nextSkill;
+	private int nextSkill;
 	public int v14;
 	public int v15;
-	public int prevSkill;
+	private int prevSkill;
 	public int v17;
 	public int v18;
 	public int v19;
@@ -93,6 +93,14 @@ public class SkillDef extends ResourceDef {
 	public SkillDef(int id) {
 		super(id);
 	}
+	
+	public int getCharacterType() {
+		return type;
+	}
+	
+	public int getPrevSkill() {
+		return this.prevSkill;
+	}
 
 	@Override
 	public void loadFromRes(ByteBuffer buf) {
@@ -101,7 +109,7 @@ public class SkillDef extends ResourceDef {
 		v3 = buf.getInt();
 		skillRank = buf.get();
 		v5 = buf.get();
-		v6 = buf.get();
+		type = buf.get();
 		v7 = buf.get();
 		v8 = buf.get();
 		v9 = buf.get();
