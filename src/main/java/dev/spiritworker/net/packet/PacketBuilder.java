@@ -536,8 +536,8 @@ public class PacketBuilder {
 		p.writeUint32(gestureId);
 		
 		p.writeFloat(character.getPosition().getX());
-		p.writeFloat(character.getPosition().getZ());
 		p.writeFloat(character.getPosition().getY());
+		p.writeFloat(character.getPosition().getZ());
 		p.writeFloat(character.getAngle());
 		p.writeEmpty(4);
 		
@@ -606,7 +606,7 @@ public class PacketBuilder {
 		return p.getPacket();
 	}
 	
-	public static byte[] sendClientPlayerMovement(GameCharacter character, float oldX, float oldZ) {
+	public static byte[] sendClientPlayerMovement(GameCharacter character, float oldX, float oldY) {
 		PacketWriter p = new PacketWriter(PacketOpcodes.ClientPlayerMovementMove);
 		
 		p.writeUint32(character.getId());
@@ -614,11 +614,11 @@ public class PacketBuilder {
 		p.writeUint16(character.getMap().getMapId());
 		p.writeUint16(2);
 		p.writeFloat(oldX);
-		p.writeFloat(oldZ);
-		p.writeFloat(character.getPosition().getY());
+		p.writeFloat(oldY);
+		p.writeFloat(character.getPosition().getZ());
 		p.writeFloat(character.getAngle());
 		p.writeFloat(character.getPosition().getX());
-		p.writeFloat(character.getPosition().getZ());
+		p.writeFloat(character.getPosition().getY());
 		p.writeEmpty(11);
 		
 		return p.getPacket();
@@ -632,8 +632,8 @@ public class PacketBuilder {
 		p.writeUint16(character.getMap().getMapId());
 		p.writeUint16(2);
 		p.writeFloat(character.getPosition().getX());
-		p.writeFloat(character.getPosition().getZ());
 		p.writeFloat(character.getPosition().getY());
+		p.writeFloat(character.getPosition().getZ());
 		p.writeFloat(character.getAngle());
 		p.writeFloat(0);
 		p.writeUint8(1);
@@ -649,8 +649,8 @@ public class PacketBuilder {
 		p.writeUint16(character.getMap().getMapId());
 		p.writeUint16(2);
 		p.writeFloat(character.getPosition().getX());
-		p.writeFloat(character.getPosition().getZ());
 		p.writeFloat(character.getPosition().getY());
+		p.writeFloat(character.getPosition().getZ());
 		p.writeFloat(character.getAngle());
 		p.writeFloat(0);
 		p.writeUint8(1);
@@ -822,8 +822,8 @@ public class PacketBuilder {
 		p.writeUint32(0);
 		p.writeUint32(0);
 		p.writeFloat(character.getPosition().getX()); // Coords probably
-		p.writeFloat(character.getPosition().getZ());
 		p.writeFloat(character.getPosition().getY());
+		p.writeFloat(character.getPosition().getZ());
 		p.writeFloat(character.getAngle()); // Angle
 		p.writeEmpty(2);
 		p.writeUint8(4);

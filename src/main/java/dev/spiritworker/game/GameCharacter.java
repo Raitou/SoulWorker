@@ -503,8 +503,8 @@ public class GameCharacter {
 		p.writeUint16(this.getDistrictId()); // Unknown
 		p.writeUint16(1); // Unknown
 		p.writeFloat(this.getPosition().getX()); // Position X
-		p.writeFloat(this.getPosition().getZ()); // Position Y
-		p.writeFloat(this.getPosition().getY()); // Position Z
+		p.writeFloat(this.getPosition().getY()); // Position Y
+		p.writeFloat(this.getPosition().getZ()); // Position Z
 		p.writeFloat(this.angle); // Rotation?
 		p.writeFloat(0); // Unknown
 		p.writeFloat(0); // Unknown

@@ -2,19 +2,19 @@ package dev.spiritworker.util;
 
 public class Position {
 	private float x;
-	private float z;
 	private float y;
+	private float z;
 	
 	public Position() {
 
 	}
 	
-	public Position(float x, float z) {
-		set(x, z);
+	public Position(float x, float y) {
+		set(x, y);
 	}
 	
-	public Position(float x, float z, float y) {
-		set(x, z, y);
+	public Position(float x, float y, float z) {
+		set(x, y, z);
 	}
 
 	public float getX() {
@@ -41,23 +41,23 @@ public class Position {
 		this.y = y;
 	}
 	
-	public Position set(float x, float z) {
+	public Position set(float x, float y) {
 		this.x = x;
-		this.z = z;
+		this.y = y;
 		return this;
 	}
 	
-	public Position set(float x, float z, float y) {
+	public Position set(float x, float y, float z) {
 		this.x = x;
-		this.z = z;
 		this.y = y;
+		this.z = z;
 		return this;
 	}
 	
 	public Position add(Position add) {
 		this.x += add.getX();
-		this.z += add.getZ();
 		this.y += add.getY();
+		this.z += add.getZ();
 		return this;
 	}
 }

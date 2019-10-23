@@ -428,21 +428,21 @@ public class WorldPacketHandler {
 		int mapId = packet.getShort();
 		packet.getShort();
 		float x = packet.getFloat();
-		float z = packet.getFloat();
 		float y = packet.getFloat();
+		float z = packet.getFloat();
 		float angle = packet.getFloat();
 		
 		// New Position
 		float newX = packet.getFloat();
-		float newZ = packet.getFloat();
+		float newY = packet.getFloat();
 				
 		float oldX = session.getCharacter().getPosition().getX();
-		float oldZ = session.getCharacter().getPosition().getZ();
+		float oldY = session.getCharacter().getPosition().getY();
 		
 		float unknown1 = packet.getFloat();
 		float unknown2 = packet.getFloat();
 		
-		session.getCharacter().getPosition().set(newX, newZ, y);
+		session.getCharacter().getPosition().set(newX, newY, z);
 		session.getCharacter().setAngle(angle);
 		
 		/*
