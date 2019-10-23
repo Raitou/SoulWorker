@@ -1,4 +1,4 @@
-package dev.spiritworker.net.packet.opcodes;
+package dev.spiritworker.net.packet;
 
 public class PacketOpcodes {
 	

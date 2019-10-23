@@ -1,8 +1,9 @@
-package dev.spiritworker.game;
+package dev.spiritworker.game.map;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import dev.spiritworker.game.character.GameCharacter;
 import dev.spiritworker.net.packet.PacketBuilder;
 
 public class GameMap {

@@ -4,8 +4,8 @@ import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 
 import dev.spiritworker.SpiritWorker;
-import dev.spiritworker.game.GameCharacter;
-import dev.spiritworker.net.packet.opcodes.PacketOpcodes;
+import dev.spiritworker.game.character.GameCharacter;
+import dev.spiritworker.net.packet.PacketOpcodes;
 import dev.spiritworker.netty.SoulWorkerSession;
 import dev.spiritworker.server.game.GameServer;
 import io.netty.buffer.ByteBuf;

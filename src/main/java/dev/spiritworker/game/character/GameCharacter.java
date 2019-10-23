@@ -1,4 +1,4 @@
-package dev.spiritworker.game;
+package dev.spiritworker.game.character;
 
 import dev.spiritworker.Constants;
 import dev.spiritworker.database.DatabaseHelper;
@@ -6,6 +6,7 @@ import dev.spiritworker.game.inventory.Inventory;
 import dev.spiritworker.game.inventory.Item;
 import dev.spiritworker.game.inventory.data.BankUpgradeData;
 import dev.spiritworker.game.inventory.data.InventoryUpgradeData;
+import dev.spiritworker.game.map.GameMap;
 import dev.spiritworker.net.packet.util.PacketWriter;
 import dev.spiritworker.netty.SoulWorkerSession;
 import dev.spiritworker.util.Position;

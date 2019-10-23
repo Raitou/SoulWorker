@@ -1,12 +1,11 @@
-package dev.spiritworker.server.world.handlers;
+package dev.spiritworker.game.managers;
 
-import dev.spiritworker.game.GameCharacter;
-import dev.spiritworker.game.Maze;
+import dev.spiritworker.game.character.GameCharacter;
 import dev.spiritworker.game.data.SoulWorker;
 import dev.spiritworker.game.data.def.MazeDef;
+import dev.spiritworker.game.map.Maze;
 import dev.spiritworker.net.packet.PacketBuilder;
 import dev.spiritworker.server.world.WorldServer;
-import dev.spiritworker.server.world.WorldSession;
 
 public class MazeManager {
 	private final WorldServer server;

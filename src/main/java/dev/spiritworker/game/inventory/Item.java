@@ -9,7 +9,7 @@ import dev.morphia.annotations.Indexed;
 import dev.morphia.annotations.PostLoad;
 import dev.morphia.annotations.Transient;
 import dev.spiritworker.database.DatabaseHelper;
-import dev.spiritworker.game.GameCharacter;
+import dev.spiritworker.game.character.GameCharacter;
 import dev.spiritworker.game.data.SoulWorker;
 import dev.spiritworker.game.data.def.ItemDef;
 import dev.spiritworker.net.packet.util.PacketWriter;

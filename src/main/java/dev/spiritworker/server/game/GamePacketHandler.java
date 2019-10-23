@@ -6,12 +6,12 @@ import java.nio.ByteBuffer;
 import dev.spiritworker.SpiritWorker;
 import dev.spiritworker.database.DatabaseHelper;
 import dev.spiritworker.game.AccessKey;
-import dev.spiritworker.game.GameCharacter;
+import dev.spiritworker.game.character.GameCharacter;
 import dev.spiritworker.game.inventory.Item;
+import dev.spiritworker.net.packet.ErrorCodes;
 import dev.spiritworker.net.packet.PacketBuilder;
+import dev.spiritworker.net.packet.PacketOpcodes;
 import dev.spiritworker.net.packet.PacketUtils;
-import dev.spiritworker.net.packet.opcodes.ErrorCodes;
-import dev.spiritworker.net.packet.opcodes.PacketOpcodes;
 
 public class GamePacketHandler {
 	

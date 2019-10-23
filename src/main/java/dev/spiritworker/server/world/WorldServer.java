@@ -7,15 +7,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import dev.spiritworker.SpiritWorker;
-import dev.spiritworker.game.District;
-import dev.spiritworker.game.Maze;
 import dev.spiritworker.game.data.SoulWorker;
 import dev.spiritworker.game.data.def.DistrictDef;
+import dev.spiritworker.game.managers.ChatManager;
+import dev.spiritworker.game.managers.ItemManager;
+import dev.spiritworker.game.managers.MazeManager;
+import dev.spiritworker.game.map.District;
+import dev.spiritworker.game.map.Maze;
 import dev.spiritworker.netty.tcp.TcpServer;
 import dev.spiritworker.server.game.GameServer;
-import dev.spiritworker.server.world.handlers.ChatManager;
-import dev.spiritworker.server.world.handlers.ItemManager;
-import dev.spiritworker.server.world.handlers.MazeManager;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 

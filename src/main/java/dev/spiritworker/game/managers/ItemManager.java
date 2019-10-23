@@ -1,7 +1,7 @@
-package dev.spiritworker.server.world.handlers;
+package dev.spiritworker.game.managers;
 
 import dev.spiritworker.Constants;
-import dev.spiritworker.game.GameCharacter;
+import dev.spiritworker.game.character.GameCharacter;
 import dev.spiritworker.game.inventory.BaseInventoryTab;
 import dev.spiritworker.game.inventory.InventorySlotType;
 import dev.spiritworker.game.inventory.InventoryTab;

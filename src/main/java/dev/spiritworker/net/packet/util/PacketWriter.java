@@ -4,7 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import dev.spiritworker.SpiritWorker;
-import dev.spiritworker.net.packet.opcodes.PacketOpcodes;
+import dev.spiritworker.net.packet.PacketOpcodes;
 import dev.spiritworker.util.crypto.Crypto;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;

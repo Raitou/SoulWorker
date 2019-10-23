@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import dev.spiritworker.SpiritWorker;
-import dev.spiritworker.game.GameCharacter;
+import dev.spiritworker.game.character.GameCharacter;
 import dev.spiritworker.netty.tcp.TcpServer;
 import dev.spiritworker.server.world.WorldServer;
 import dev.spiritworker.util.ServerData;

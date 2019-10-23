@@ -1,4 +1,4 @@
-package dev.spiritworker.game;
+package dev.spiritworker.game.map;
 
 import dev.spiritworker.game.data.def.DistrictDef;
 

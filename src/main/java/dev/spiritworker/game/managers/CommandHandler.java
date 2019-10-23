@@ -1,10 +1,10 @@
-package dev.spiritworker.server.world.handlers;
+package dev.spiritworker.game.managers;
 
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 
-import dev.spiritworker.game.GameCharacter;
-import dev.spiritworker.game.Stat;
+import dev.spiritworker.game.character.GameCharacter;
+import dev.spiritworker.game.character.Stat;
 import dev.spiritworker.game.data.SoulWorker;
 import dev.spiritworker.game.inventory.InventorySlotType;
 import dev.spiritworker.game.inventory.InventoryTab;

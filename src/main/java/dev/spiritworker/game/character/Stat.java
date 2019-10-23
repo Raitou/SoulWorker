@@ -1,4 +1,4 @@
-package dev.spiritworker.game;
+package dev.spiritworker.game.character;
 
 import dev.spiritworker.net.packet.PacketBuilder;
 import dev.spiritworker.net.packet.util.PacketWriter;

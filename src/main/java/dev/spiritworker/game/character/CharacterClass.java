@@ -1,4 +1,4 @@
-package dev.spiritworker.game;
+package dev.spiritworker.game.character;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
