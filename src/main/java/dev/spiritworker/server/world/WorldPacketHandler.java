@@ -7,17 +7,15 @@ import dev.spiritworker.Constants;
 import dev.spiritworker.SpiritWorker;
 import dev.spiritworker.database.DatabaseHelper;
 import dev.spiritworker.game.AccessKey;
-import dev.spiritworker.game.District;
-import dev.spiritworker.game.GameCharacter;
-import dev.spiritworker.game.GameMap;
-import dev.spiritworker.game.Maze;
-import dev.spiritworker.game.data.SoulWorker;
-import dev.spiritworker.game.data.def.SkillDef;
+import dev.spiritworker.game.character.GameCharacter;
 import dev.spiritworker.game.inventory.InventorySlotType;
 import dev.spiritworker.game.inventory.InventoryTab;
+import dev.spiritworker.game.map.District;
+import dev.spiritworker.game.map.GameMap;
+import dev.spiritworker.game.map.Maze;
 import dev.spiritworker.net.packet.PacketBuilder;
+import dev.spiritworker.net.packet.PacketOpcodes;
 import dev.spiritworker.net.packet.PacketUtils;
-import dev.spiritworker.net.packet.opcodes.PacketOpcodes;
 import dev.spiritworker.util.FileUtils;
 import dev.spiritworker.util.crypto.Crypto;
 
@@ -119,6 +117,9 @@ public class WorldPacketHandler {
 			case PacketOpcodes.ClientLeaveMaze:
 				handleClientLeaveMaze(session, packet);
 				break;
+			case PacketOpcodes.ClientResetPositionRequest:
+				handleClientResetPositionRequest(session);
+				break;
 			case PacketOpcodes.ClientRequestLogout: // Called when the client tries to go back to the server list from the character list screen
 				handleClientRequestLogout(session, packet);
 				break;
@@ -130,13 +131,21 @@ public class WorldPacketHandler {
 		}
 	}
 
+	private static void handleClientResetPositionRequest(WorldSession session) {
+		if (session.getCharacter().getMap() instanceof District) {
+			District district = (District) session.getCharacter().getMap();
+			session.getCharacter().getPosition().set(district.getDef().getUnk1(), district.getDef().getUnk2(), 100);
+			session.sendPacket(PacketBuilder.sendClientUpdatePosition(session.getCharacter()));
+		}
+	}
+
 	private static void handleClientActivateSkill(WorldSession session, ByteBuffer packet) {
 		// TODO Auto-generated method stub
 		int skillId = packet.getInt();
 		int characterId = packet.getInt();
 		float x = packet.getFloat();
-		float y = packet.getFloat();
 		float z = packet.getFloat();
+		float y = packet.getFloat();
 		float angle = packet.getFloat();
 		
 		// Unknowns
@@ -428,21 +437,21 @@ public class WorldPacketHandler {
 		int mapId = packet.getShort();
 		packet.getShort();
 		float x = packet.getFloat();
-		float z = packet.getFloat();
 		float y = packet.getFloat();
+		float z = packet.getFloat();
 		float angle = packet.getFloat();
 		
 		// New Position
 		float newX = packet.getFloat();
-		float newZ = packet.getFloat();
+		float newY = packet.getFloat();
 				
 		float oldX = session.getCharacter().getPosition().getX();
-		float oldZ = session.getCharacter().getPosition().getZ();
+		float oldY = session.getCharacter().getPosition().getY();
 		
 		float unknown1 = packet.getFloat();
 		float unknown2 = packet.getFloat();
 		
-		session.getCharacter().getPosition().set(newX, newZ, y);
+		session.getCharacter().getPosition().set(newX, newY, z);
 		session.getCharacter().setAngle(angle);
 		
 		/*

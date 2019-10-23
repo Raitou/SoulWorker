@@ -1,4 +1,4 @@
-package dev.spiritworker.game;
+package dev.spiritworker.game.character;
 
 import dev.morphia.annotations.Transient;
 import dev.spiritworker.game.data.SoulWorker;

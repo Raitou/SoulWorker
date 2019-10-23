@@ -11,7 +11,7 @@ import dev.morphia.Morphia;
 import dev.spiritworker.SpiritWorker;
 import dev.spiritworker.game.AccessKey;
 import dev.spiritworker.game.AccountData;
-import dev.spiritworker.game.GameCharacter;
+import dev.spiritworker.game.character.GameCharacter;
 import dev.spiritworker.game.inventory.Item;
 import dev.spiritworker.game.inventory.data.BankUpgradeData;
 

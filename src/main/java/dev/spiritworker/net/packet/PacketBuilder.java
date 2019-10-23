@@ -8,18 +8,17 @@ import java.util.stream.Collectors;
 
 import dev.spiritworker.Constants;
 import dev.spiritworker.database.DatabaseHelper;
-import dev.spiritworker.game.CharacterStats;
-import dev.spiritworker.game.GameCharacter;
-import dev.spiritworker.game.GameMap;
-import dev.spiritworker.game.Maze;
-import dev.spiritworker.game.Skill;
-import dev.spiritworker.game.Stat;
+import dev.spiritworker.game.character.CharacterStats;
+import dev.spiritworker.game.character.GameCharacter;
+import dev.spiritworker.game.character.Skill;
+import dev.spiritworker.game.character.Stat;
 import dev.spiritworker.game.inventory.BaseInventoryTab;
 import dev.spiritworker.game.inventory.InventorySlotType;
 import dev.spiritworker.game.inventory.InventoryTab;
 import dev.spiritworker.game.inventory.Item;
 import dev.spiritworker.game.inventory.ItemEnhanceResult;
-import dev.spiritworker.net.packet.opcodes.PacketOpcodes;
+import dev.spiritworker.game.map.GameMap;
+import dev.spiritworker.game.map.Maze;
 import dev.spiritworker.net.packet.util.PacketWriter;
 import dev.spiritworker.netty.SoulWorkerSession;
 import dev.spiritworker.server.auth.AuthSession;
@@ -536,8 +535,8 @@ public class PacketBuilder {
 		p.writeUint32(gestureId);
 		
 		p.writeFloat(character.getPosition().getX());
-		p.writeFloat(character.getPosition().getZ());
 		p.writeFloat(character.getPosition().getY());
+		p.writeFloat(character.getPosition().getZ());
 		p.writeFloat(character.getAngle());
 		p.writeEmpty(4);
 		
@@ -606,7 +605,7 @@ public class PacketBuilder {
 		return p.getPacket();
 	}
 	
-	public static byte[] sendClientPlayerMovement(GameCharacter character, float oldX, float oldZ) {
+	public static byte[] sendClientPlayerMovement(GameCharacter character, float oldX, float oldY) {
 		PacketWriter p = new PacketWriter(PacketOpcodes.ClientPlayerMovementMove);
 		
 		p.writeUint32(character.getId());
@@ -614,11 +613,11 @@ public class PacketBuilder {
 		p.writeUint16(character.getMap().getMapId());
 		p.writeUint16(2);
 		p.writeFloat(oldX);
-		p.writeFloat(oldZ);
-		p.writeFloat(character.getPosition().getY());
+		p.writeFloat(oldY);
+		p.writeFloat(character.getPosition().getZ());
 		p.writeFloat(character.getAngle());
 		p.writeFloat(character.getPosition().getX());
-		p.writeFloat(character.getPosition().getZ());
+		p.writeFloat(character.getPosition().getY());
 		p.writeEmpty(11);
 		
 		return p.getPacket();
@@ -632,8 +631,8 @@ public class PacketBuilder {
 		p.writeUint16(character.getMap().getMapId());
 		p.writeUint16(2);
 		p.writeFloat(character.getPosition().getX());
-		p.writeFloat(character.getPosition().getZ());
 		p.writeFloat(character.getPosition().getY());
+		p.writeFloat(character.getPosition().getZ());
 		p.writeFloat(character.getAngle());
 		p.writeFloat(0);
 		p.writeUint8(1);
@@ -649,8 +648,8 @@ public class PacketBuilder {
 		p.writeUint16(character.getMap().getMapId());
 		p.writeUint16(2);
 		p.writeFloat(character.getPosition().getX());
-		p.writeFloat(character.getPosition().getZ());
 		p.writeFloat(character.getPosition().getY());
+		p.writeFloat(character.getPosition().getZ());
 		p.writeFloat(character.getAngle());
 		p.writeFloat(0);
 		p.writeUint8(1);
@@ -822,8 +821,8 @@ public class PacketBuilder {
 		p.writeUint32(0);
 		p.writeUint32(0);
 		p.writeFloat(character.getPosition().getX()); // Coords probably
-		p.writeFloat(character.getPosition().getZ());
 		p.writeFloat(character.getPosition().getY());
+		p.writeFloat(character.getPosition().getZ());
 		p.writeFloat(character.getAngle()); // Angle
 		p.writeEmpty(2);
 		p.writeUint8(4);
@@ -860,6 +859,19 @@ public class PacketBuilder {
 		p.writeFloat(0); // Angle
 		p.writeEmpty(13);
 		p.writeUint8(1);
+		
+		return p.getPacket();
+	}
+	
+	public static byte[] sendClientUpdatePosition(GameCharacter character) {
+		PacketWriter p = new PacketWriter(PacketOpcodes.ClientUpdatePosition);
+		
+		p.writeUint32(character.getId());
+		p.writeUint8(0);
+		p.writeFloat(character.getPosition().getX());
+		p.writeFloat(character.getPosition().getY());
+		p.writeFloat(character.getPosition().getZ());
+		p.writeFloat(character.getAngle());
 		
 		return p.getPacket();
 	}

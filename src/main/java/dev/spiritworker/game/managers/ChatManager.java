@@ -1,4 +1,4 @@
-package dev.spiritworker.server.world.handlers;
+package dev.spiritworker.game.managers;
 
 import dev.spiritworker.net.packet.PacketBuilder;
 import dev.spiritworker.server.world.WorldServer;

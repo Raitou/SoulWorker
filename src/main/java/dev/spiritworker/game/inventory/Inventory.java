@@ -7,7 +7,7 @@ import java.util.Map;
 
 import dev.spiritworker.SpiritWorker;
 import dev.spiritworker.database.DatabaseHelper;
-import dev.spiritworker.game.GameCharacter;
+import dev.spiritworker.game.character.GameCharacter;
 import dev.spiritworker.game.data.SoulWorker;
 import dev.spiritworker.game.data.def.PackageDef;
 import dev.spiritworker.game.data.def.PackageDef.PackageItemData;

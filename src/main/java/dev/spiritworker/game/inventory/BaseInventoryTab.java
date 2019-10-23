@@ -1,6 +1,6 @@
 package dev.spiritworker.game.inventory;
 
-import dev.spiritworker.game.GameCharacter;
+import dev.spiritworker.game.character.GameCharacter;
 import dev.spiritworker.net.packet.PacketBuilder;
 
 public abstract class BaseInventoryTab {

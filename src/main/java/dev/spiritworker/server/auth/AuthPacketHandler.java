@@ -6,8 +6,8 @@ import dev.spiritworker.database.DatabaseHelper;
 import dev.spiritworker.game.AccessKey;
 import dev.spiritworker.game.AccountData;
 import dev.spiritworker.net.packet.PacketBuilder;
+import dev.spiritworker.net.packet.PacketOpcodes;
 import dev.spiritworker.net.packet.PacketUtils;
-import dev.spiritworker.net.packet.opcodes.PacketOpcodes;
 import dev.spiritworker.util.ServerData;
 
 public class AuthPacketHandler {

@@ -1,4 +1,4 @@
-package dev.spiritworker.game;
+package dev.spiritworker.game.character;
 
 import dev.spiritworker.Constants;
 import dev.spiritworker.database.DatabaseHelper;
@@ -6,6 +6,7 @@ import dev.spiritworker.game.inventory.Inventory;
 import dev.spiritworker.game.inventory.Item;
 import dev.spiritworker.game.inventory.data.BankUpgradeData;
 import dev.spiritworker.game.inventory.data.InventoryUpgradeData;
+import dev.spiritworker.game.map.GameMap;
 import dev.spiritworker.net.packet.util.PacketWriter;
 import dev.spiritworker.netty.SoulWorkerSession;
 import dev.spiritworker.util.Position;
@@ -503,8 +504,8 @@ public class GameCharacter {
 		p.writeUint16(this.getDistrictId()); // Unknown
 		p.writeUint16(1); // Unknown
 		p.writeFloat(this.getPosition().getX()); // Position X
-		p.writeFloat(this.getPosition().getZ()); // Position Y
-		p.writeFloat(this.getPosition().getY()); // Position Z
+		p.writeFloat(this.getPosition().getY()); // Position Y
+		p.writeFloat(this.getPosition().getZ()); // Position Z
 		p.writeFloat(this.angle); // Rotation?
 		p.writeFloat(0); // Unknown
 		p.writeFloat(0); // Unknown

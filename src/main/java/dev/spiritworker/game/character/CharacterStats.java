@@ -1,9 +1,10 @@
-package dev.spiritworker.game;
+package dev.spiritworker.game.character;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import dev.spiritworker.game.inventory.Item;
+import dev.spiritworker.game.map.District;
 import dev.spiritworker.net.packet.PacketBuilder;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;

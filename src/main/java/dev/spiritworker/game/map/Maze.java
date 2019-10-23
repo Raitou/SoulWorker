@@ -1,6 +1,6 @@
-package dev.spiritworker.game;
+package dev.spiritworker.game.map;
 
-import dev.spiritworker.server.world.handlers.MazeManager;
+import dev.spiritworker.game.managers.MazeManager;
 
 public class Maze extends GameMap implements Runnable {
 	private final MazeManager mazeManager;

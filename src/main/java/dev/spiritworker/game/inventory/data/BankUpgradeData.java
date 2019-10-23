@@ -3,7 +3,7 @@ package dev.spiritworker.game.inventory.data;
 import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
 import dev.spiritworker.database.DatabaseHelper;
-import dev.spiritworker.game.GameCharacter;
+import dev.spiritworker.game.character.GameCharacter;
 import dev.spiritworker.game.inventory.InventorySlotType;
 import dev.spiritworker.game.inventory.InventoryTab;
 

@@ -1,12 +1,8 @@
-package dev.spiritworker.game;
-
-import java.util.ArrayList;
-import java.util.List;
+package dev.spiritworker.game.character;
 
 import dev.morphia.annotations.Id;
 import dev.morphia.annotations.Transient;
 import dev.spiritworker.Constants;
-import dev.spiritworker.SpiritWorker;
 import dev.spiritworker.game.data.SoulWorker;
 import dev.spiritworker.game.data.def.SkillDef;
 import dev.spiritworker.net.packet.PacketBuilder;

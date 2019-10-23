@@ -8,7 +8,7 @@ import dev.morphia.query.Query;
 import dev.morphia.query.internal.MorphiaCursor;
 import dev.spiritworker.game.AccessKey;
 import dev.spiritworker.game.AccountData;
-import dev.spiritworker.game.GameCharacter;
+import dev.spiritworker.game.character.GameCharacter;
 import dev.spiritworker.game.inventory.InventorySlotType;
 import dev.spiritworker.game.inventory.Item;
 import dev.spiritworker.game.inventory.data.BankUpgradeData;

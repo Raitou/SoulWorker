@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.spiritworker.SpiritWorker;
-import dev.spiritworker.game.GameCharacter;
+import dev.spiritworker.game.character.GameCharacter;
 import dev.spiritworker.netty.SoulWorkerSession;
 import io.netty.channel.ChannelHandlerContext;
 
