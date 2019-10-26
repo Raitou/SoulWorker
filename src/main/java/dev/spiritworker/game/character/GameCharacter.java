@@ -56,6 +56,7 @@ public class GameCharacter {
 	private float angle;
 	
 	@Transient private GameMap map;
+	@Transient private boolean hasLoadedIn;
 	private int mapId;
 
 	private long money;
@@ -421,6 +422,14 @@ public class GameCharacter {
 		}
 	}
 	
+	public boolean hasLoadedInMap() {
+		return hasLoadedIn;
+	}
+
+	public void setLoadStatus(boolean hasLoadedIn) {
+		this.hasLoadedIn = hasLoadedIn;
+	}
+
 	public void save() {
 		// Save to database
 		DatabaseHelper.saveCharacter(this);

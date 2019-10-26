@@ -13,7 +13,7 @@ public class SkillDef extends ResourceDef {
 	private int type;
 	public int v7;
 	public int v8;
-	public int v9;
+	public int cost;
 	public int v10;
 	public int v11;
 	public int v12;
@@ -39,7 +39,7 @@ public class SkillDef extends ResourceDef {
 	public int v32;
 	public int v33;
 	public int v34;
-	public int v35;
+	public int costSF;
 	public int v36;
 	public int v37;
 	public int v38;
@@ -101,6 +101,10 @@ public class SkillDef extends ResourceDef {
 	public int getPrevSkill() {
 		return this.prevSkill;
 	}
+	
+	public int getCost() {
+		return cost;
+	}
 
 	@Override
 	public void loadFromRes(ByteBuffer buf) {
@@ -112,7 +116,7 @@ public class SkillDef extends ResourceDef {
 		type = buf.get();
 		v7 = buf.get();
 		v8 = buf.get();
-		v9 = buf.get();
+		cost = buf.get();
 		v10 = buf.get();
 		v11 = buf.get();
 		v12 = buf.getInt();
@@ -138,7 +142,7 @@ public class SkillDef extends ResourceDef {
 		v32 = buf.getInt();
 		v33 = buf.get();
 		v34 = buf.get();
-		v35 = buf.get();
+		costSF = buf.get();
 		v36 = buf.get();
 		v37 = buf.get();
 		v38 = buf.getInt();

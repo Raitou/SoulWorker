@@ -20,16 +20,19 @@ public class MazeManager {
 	
 	public Maze createMaze(int mazeId, GameCharacter character) {
 		MazeDef mazeDef = SoulWorker.getMazeDefs().get(mazeId);
-		if (mazeDef == null) {
+		if (mazeDef == null || mazeDef.getData() == null) {
 			return null;
 		}
 		
 		// Create maze and register it to the gameserver
-		Maze maze = new Maze(this, mazeId);
+		Maze maze = new Maze(this, mazeDef);
 		getServer().registerMaze(maze);
 		
 		// Add characters TODO add characters from party
+		character.getPosition().set(mazeDef.getData().getPosition());
+		character.setAngle(mazeDef.getData().getAngle());
 		maze.addCharacter(character);
+		character.setLoadStatus(false);
 		character.getSession().sendPacket(PacketBuilder.sendClientEnterMaze(character, maze));
 		
 		return maze;

@@ -47,6 +47,10 @@ public class Position {
 		return this;
 	}
 	
+	public Position set(Position pos) {
+		return this.set(pos.getX(), pos.getY(), pos.getZ());
+	}
+	
 	public Position set(float x, float y, float z) {
 		this.x = x;
 		this.y = y;
@@ -60,4 +64,16 @@ public class Position {
 		this.z += add.getZ();
 		return this;
 	}
+	
+	public Position translate(float dist, float angle) {
+		this.x += dist * Math.sin(angle);
+		this.y += dist * Math.cos(angle);
+		return this;
+	}
+	
+	@Override
+	public Position clone() {
+		return new Position(x, y, z);
+	}
+
 }

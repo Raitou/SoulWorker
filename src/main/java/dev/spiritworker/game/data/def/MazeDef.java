@@ -3,9 +3,11 @@ package dev.spiritworker.game.data.def;
 import java.nio.ByteBuffer;
 
 import dev.spiritworker.game.data.ResourceDef;
+import dev.spiritworker.game.data.spawns.MazeData;
 
 public class MazeDef extends ResourceDef {
-
+	private MazeData data;
+	
 	private int v1;
 	private int v2;
 	private int v3;
@@ -53,6 +55,14 @@ public class MazeDef extends ResourceDef {
 	
 	public MazeDef(int id) {
 		super(id);
+	}
+
+	public MazeData getData() {
+		return data;
+	}
+
+	public void setData(MazeData data) {
+		this.data = data;
 	}
 
 	@Override

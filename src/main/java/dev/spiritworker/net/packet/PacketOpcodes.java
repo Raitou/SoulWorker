@@ -46,13 +46,18 @@ public class PacketOpcodes {
 	public static final int ClientCharacterUpdate = 0x0334; // Guessed
 	public static final int ClientCharacterUpdateSpecialOptionList = 0x0347; // Profile info request?
 	
+	public static final int ClientLeaveMaze = 0x0401;
 	public static final int ClientJoinMap = 0x0402;
-	public static final int ClientUpdatePosition = 0x0408; 
 	public static final int ClientPlayersRequest = 0x0406; //?
+	public static final int ClientMazePortalEnter = 0x0407; 
+	public static final int ClientUpdatePosition = 0x0408; 
+	public static final int ClientMazePortalUpdate = 0x0409; 
 	public static final int ClientPlayerSpawn = 0x0411; // Spawns another player on client
 	public static final int ClientPlayerRemove = 0x0412; // Removes player on client
+	public static final int ClientMonsterAdd = 0x0415;
 	public static final int ClientPlayersInfo = 0x0421;
 	public static final int ClientNpcsInfo = 0x0422;
+	public static final int ClientSpawnMonsters = 0x0423;
 	public static final int ClientResetPositionRequest = 0x0433;
 	public static final int ClientCreateMaze = 0x0441;
 	public static final int Unknown = 0444;
@@ -68,6 +73,7 @@ public class PacketOpcodes {
 	
 	public static final int ClientActivateSkill = 0x0608;
 	public static final int ClientActivateSkillResponse = 0x0609;
+	public static final int ClientSkillDamageInfo = 0x0613;
 	public static final int ClientSkillsInfo = 0x0670;
 	public static final int ClientUpdateSkill = 0x0671;
 	public static final int ClientUpdateSkillLoadout = 0x0675;
@@ -99,7 +105,10 @@ public class PacketOpcodes {
 	public static final int ClientShopBuy = 0x0901;
 	public static final int ClientShopSell = 0x0902;
 	
-	public static final int ClientLeaveMaze = 0x1123;
+	public static final int ClientEnteredMaze = 0x1122;
+	public static final int ClientQuitMaze = 0x1123;
+	public static final int ClientFinishMazeOpenPortal = 0x1152; // Guessed name
+	public static final int ClientFinishMaze = 0x1175;
 	
 	public static final int ClientPartyInvite = 0x1201;
 	public static final int ClientPartyAccept = 0x1202;
