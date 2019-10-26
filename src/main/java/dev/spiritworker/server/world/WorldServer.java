@@ -89,7 +89,7 @@ public class WorldServer extends TcpServer {
 		this.mazes.add(maze);
 	}
 	
-	public synchronized void deRegisterMaze(Maze maze) {
+	public synchronized void deregisterMaze(Maze maze) {
 		this.mazes.remove(maze);
 	}
 	

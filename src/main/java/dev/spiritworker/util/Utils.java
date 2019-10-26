@@ -21,4 +21,10 @@ public class Utils {
 	public static int getAppearanceType(int appearance) {
 		return (int) Math.floor(appearance / 1000f);
 	}
+
+	public static float getFast2dDist(Position pos1, Position pos2) {
+		float xs = pos1.getX() - pos2.getX();
+		float ys = pos1.getY() - pos2.getY();
+	    return (xs * xs) + (ys * ys);
+	}
 }

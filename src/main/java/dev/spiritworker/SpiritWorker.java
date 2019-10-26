@@ -64,6 +64,10 @@ public class SpiritWorker {
 		return log;
 	}
 	
+	public static Gson getGsonFactory() {
+		return gson;
+	}
+	
 	public static void loadConfig() {
 		try (FileReader file = new FileReader(configFile)) {
 			// Read from file

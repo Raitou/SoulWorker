@@ -47,4 +47,8 @@ public class Skill {
 		p.writeUint32(this.id);
 		p.writeUint32(this.upgrade);
 	}
+	
+	public String toString() {
+		return "[Skill: " + this.id + "]";
+	}
 }

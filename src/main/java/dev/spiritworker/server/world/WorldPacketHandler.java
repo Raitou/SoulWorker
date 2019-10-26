@@ -8,6 +8,9 @@ import dev.spiritworker.SpiritWorker;
 import dev.spiritworker.database.DatabaseHelper;
 import dev.spiritworker.game.AccessKey;
 import dev.spiritworker.game.character.GameCharacter;
+import dev.spiritworker.game.character.Skill;
+import dev.spiritworker.game.data.SoulWorker;
+import dev.spiritworker.game.data.def.SkillDef;
 import dev.spiritworker.game.inventory.InventorySlotType;
 import dev.spiritworker.game.inventory.InventoryTab;
 import dev.spiritworker.game.map.District;
@@ -114,8 +117,17 @@ public class WorldPacketHandler {
 			case PacketOpcodes.ClientCreateMaze:
 				handleClientCreateMaze(session, packet);
 				break;
+			case PacketOpcodes.ClientEnteredMaze:
+				handleClientEnteredMaze(session);
+				break;
 			case PacketOpcodes.ClientLeaveMaze:
 				handleClientLeaveMaze(session, packet);
+				break;
+			case PacketOpcodes.ClientQuitMaze:
+				handleClientQuitMaze(session);
+				break;
+			case PacketOpcodes.ClientMazePortalEnter:
+				handleClientMazePortalEnter(session, packet);
 				break;
 			case PacketOpcodes.ClientResetPositionRequest:
 				handleClientResetPositionRequest(session);
@@ -131,6 +143,18 @@ public class WorldPacketHandler {
 		}
 	}
 
+	private static void handleClientMazePortalEnter(WorldSession session, ByteBuffer packet) {
+		if (!(session.getCharacter().getMap() instanceof Maze)) {
+			return;
+		}
+		
+		packet.getInt();
+		packet.getInt();
+		int stage = packet.getInt();
+		
+		((Maze) session.getCharacter().getMap()).onEnterPortal(stage);
+	}
+
 	private static void handleClientResetPositionRequest(WorldSession session) {
 		if (session.getCharacter().getMap() instanceof District) {
 			District district = (District) session.getCharacter().getMap();
@@ -144,8 +168,8 @@ public class WorldPacketHandler {
 		int skillId = packet.getInt();
 		int characterId = packet.getInt();
 		float x = packet.getFloat();
-		float z = packet.getFloat();
 		float y = packet.getFloat();
+		float z = packet.getFloat();
 		float angle = packet.getFloat();
 		
 		// Unknowns
@@ -160,12 +184,51 @@ public class WorldPacketHandler {
 		int unk1 = packet.getInt();
 		
 		session.sendPacket(PacketBuilder.sendClientActivateSkillResponse(unk1));
+		
+		SkillDef skillDef = SoulWorker.getSkillDefs().get(skillId);
+		if (skillDef == null) {
+			return;
+		}
+		
+		// Calculate damage TODO move this to a better place
+		if (session.getCharacter().getMap() instanceof Maze) {
+			((Maze) session.getCharacter().getMap()).onSkillUse(session.getCharacter(), x, y, z, angle, skillDef);
+		}
+	}
+	
+	private static void handleClientEnteredMaze(WorldSession session) {
+		if (!(session.getCharacter().getMap() instanceof Maze)) {
+			return;
+		}
+		
+		session.getCharacter().setLoadStatus(true);
+		((Maze) session.getCharacter().getMap()).onEntered(session.getCharacter());
 	}
 
+	private static void handleClientQuitMaze(WorldSession session) {
+		if (!(session.getCharacter().getMap() instanceof Maze)) {
+			return;
+		}
+		
+		District district = session.getServer().getDistrictById(10003);
+		district.addCharacter(session.getCharacter());
+		session.getCharacter().getPosition().set(10000, 10000, 100);
+		
+		session.sendPacket(PacketBuilder.sendClientJoinMap(session.getCharacter(), district));
+	}
+	
 	private static void handleClientLeaveMaze(WorldSession session, ByteBuffer packet) {
 		if (!(session.getCharacter().getMap() instanceof Maze)) {
 			return;
 		}
+		
+		packet.getInt();
+		packet.getInt();
+		packet.getInt();
+		packet.get();
+		int mapId = packet.getShort();
+		packet.getShort();
+		packet.getInt(); // Maze portal id?
 		
 		District district = session.getServer().getDistrictById(10003);
 		district.addCharacter(session.getCharacter());

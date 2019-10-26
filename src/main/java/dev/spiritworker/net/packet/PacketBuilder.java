@@ -2,6 +2,7 @@ package dev.spiritworker.net.packet;
 
 import java.net.InetSocketAddress;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,6 +13,7 @@ import dev.spiritworker.game.character.CharacterStats;
 import dev.spiritworker.game.character.GameCharacter;
 import dev.spiritworker.game.character.Skill;
 import dev.spiritworker.game.character.Stat;
+import dev.spiritworker.game.data.def.SkillDef;
 import dev.spiritworker.game.inventory.BaseInventoryTab;
 import dev.spiritworker.game.inventory.InventorySlotType;
 import dev.spiritworker.game.inventory.InventoryTab;
@@ -19,6 +21,7 @@ import dev.spiritworker.game.inventory.Item;
 import dev.spiritworker.game.inventory.ItemEnhanceResult;
 import dev.spiritworker.game.map.GameMap;
 import dev.spiritworker.game.map.Maze;
+import dev.spiritworker.game.map.Monster;
 import dev.spiritworker.net.packet.util.PacketWriter;
 import dev.spiritworker.netty.SoulWorkerSession;
 import dev.spiritworker.server.auth.AuthSession;
@@ -811,7 +814,9 @@ public class PacketBuilder {
 		});
 		
 		p.writeUint64(0);	// Unknown
-		p.writeUint32(16777317);	// Unknown
+		p.writeUint16(0x66);	// Unknown
+		p.writeUint8(0);	// Unknown
+		p.writeUint8(2);	// Unknown
 		p.writeUint16(character.getMapId());
 		p.writeUint16(1);
 		p.writeUint64(0);	// Unknown
@@ -853,10 +858,10 @@ public class PacketBuilder {
 		p.writeInt16(-1);
 		p.writeUint32(0);
 		p.writeUint32(0);
-		p.writeFloat(9155); // X
-		p.writeFloat(25200); // Z
-		p.writeFloat(10); // Y
-		p.writeFloat(0); // Angle
+		p.writeFloat(character.getPosition().getX()); // Coords probably
+		p.writeFloat(character.getPosition().getY());
+		p.writeFloat(character.getPosition().getZ());
+		p.writeFloat(character.getAngle()); // Angle
 		p.writeEmpty(13);
 		p.writeUint8(1);
 		
@@ -884,6 +889,113 @@ public class PacketBuilder {
 		p.writeUint8(0x68);
 		p.writeUint32(unk1);
 		p.writeEmpty(48);
+		
+		return p.getPacket();
+	}
+	
+	public static byte[] sendClientSkillDamageInfo(GameCharacter character, Monster target, SkillDef skillDef, int damage) {
+		PacketWriter p = new PacketWriter(PacketOpcodes.ClientSkillDamageInfo);
+		
+		p.writeUint8(1);
+		p.writeUint32(target.getId());
+		p.writeUint8(1); // Unknown
+		p.writeUint8(0); // Damage type: regular attack = 0, miss = 1, crit = 4
+		p.writeInt32(damage); // Damage is an int32, negative values = healing
+		p.writeInt32(0); // Unknown (super armor damage?)
+		p.writeInt32(target.getPercentHealth()); // Health remaining
+		p.writeFloat(target.getPosition().getX());
+		p.writeFloat(target.getPosition().getY());
+		p.writeEmpty(14);
+		p.writeUint32(character.getId());
+		p.writeFloat(character.getPosition().getX());
+		p.writeFloat(character.getPosition().getY());
+		p.writeFloat(character.getPosition().getZ());
+		p.writeFloat(character.getAngle());
+		p.writeUint32(0);
+		p.writeUint32(skillDef.getId());
+		p.writeUint16(0x33);
+		p.writeUint32(0);
+		
+		return p.getPacket();
+	}
+
+	public static byte[] sendClientSpawnMonsters(Collection<Monster> monsters) {
+		PacketWriter p = new PacketWriter(PacketOpcodes.ClientSpawnMonsters);
+		
+		p.writeUint16(monsters.size());
+		for (Monster monster : monsters) {
+			monster.write(p);
+		}
+		
+		return p.getPacket();
+	}
+	
+	public static byte[] sendClientSpawnMonster(Monster monster) {
+		PacketWriter p = new PacketWriter(PacketOpcodes.ClientSpawnMonsters);
+		
+		p.writeUint16(1);
+		monster.write(p);
+		
+		return p.getPacket();
+	}
+	
+
+	public static byte[] sendClientAddMonster(Monster monster) {
+		PacketWriter p = new PacketWriter(PacketOpcodes.ClientMonsterAdd);
+		
+		p.writeUint8(1);
+		monster.write(p);
+		
+		return p.getPacket();
+	}
+	
+	public static byte[] sendClientMazePortalUpdate(int portal, boolean isOpen, boolean isLastPortal) {
+		PacketWriter p = new PacketWriter(PacketOpcodes.ClientMazePortalUpdate);
+		
+		p.writeUint32(portal);
+		p.writeBoolean(isOpen);
+		p.writeBoolean(isLastPortal);
+		
+		return p.getPacket();
+	}
+	
+	public static byte[] sendClientFinishMazeOpenPortal(int mapId, boolean isOpen) {
+		PacketWriter p = new PacketWriter(PacketOpcodes.ClientFinishMazeOpenPortal);
+		
+		p.writeUint32(mapId);
+		p.writeBoolean(isOpen);
+		
+		return p.getPacket();
+	}
+	
+	public static byte[] sendClientFinishMaze(int rank, int score) {
+		PacketWriter p = new PacketWriter(PacketOpcodes.ClientFinishMaze);
+		
+		p.writeUint8(rank);
+		p.writeUint32(score);
+		p.writeUint32(0); // District points
+		p.writeUint32(0); // Time
+		p.writeUint32(0); // Highest combo
+		p.writeUint32(0); // Clear exp earned
+		p.writeUint32(0); // Clear zenny earned
+		p.writeUint32(0); // Unknown
+		p.writeUint32(0); // Unknown
+		p.writeUint32(0); // Total exp earned
+		p.writeUint32(0); // Total zenny earned
+		p.writeUint32(0); // Unknown
+		
+		p.writeInt32(0); // Top reward (id of item)
+		p.writeUint16(0); // Count
+		p.writeInt32(831000002); // Id of key for middle reward
+		p.writeUint16(1); // Key Count
+		p.writeInt32(0); // Middle reward (id of item)
+		p.writeUint16(0); // Count
+		p.writeEmpty(7);
+		p.writeInt32(831000002); // Id of key for bottom reward
+		p.writeUint16(3); // Key Count
+		
+		// Padding
+		p.writeEmpty(6 * 8);
 		
 		return p.getPacket();
 	}

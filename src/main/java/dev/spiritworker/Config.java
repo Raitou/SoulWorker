@@ -16,6 +16,7 @@ public class Config {
 	public String DatabaseCollection = "spiritworker";
 	
 	public String RESOURCE_FOLDER = "./resources/";
+	public static String DATA_FOLDER = "./data/";
 	public String PACKETS_FOLDER = "./packets/";
 	public boolean LOG_PACKETS = true;
 }
