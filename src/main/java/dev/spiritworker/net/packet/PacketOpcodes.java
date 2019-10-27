@@ -43,7 +43,7 @@ public class PacketOpcodes {
 	public static final int ClientCharacterUpdateTitle = 0x0325;
 	public static final int ClientCharacterInfoRequest = 0x0331;
 	public static final int ClientCharacterInfoResponse = 0x0332;
-	public static final int ClientCharacterUpdate = 0x0334; // Guessed
+	public static final int ClientCharacterUpdate = 0x0334; // Updates stats
 	public static final int ClientCharacterUpdateSpecialOptionList = 0x0347; // Profile info request?
 	
 	public static final int ClientLeaveMaze = 0x0401;

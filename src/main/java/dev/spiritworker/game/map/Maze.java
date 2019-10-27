@@ -2,11 +2,7 @@ package dev.spiritworker.game.map;
 
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
-
-import dev.spiritworker.SpiritWorker;
 import dev.spiritworker.game.character.GameCharacter;
-import dev.spiritworker.game.character.Skill;
 import dev.spiritworker.game.data.SoulWorker;
 import dev.spiritworker.game.data.def.MazeDef;
 import dev.spiritworker.game.data.def.MonsterDef;
@@ -18,7 +14,6 @@ import dev.spiritworker.game.data.spawns.MazeData.MazeWaveData;
 import dev.spiritworker.game.managers.MazeManager;
 import dev.spiritworker.net.packet.PacketBuilder;
 import dev.spiritworker.server.world.WorldServer;
-import dev.spiritworker.util.FileUtils;
 import dev.spiritworker.util.Position;
 import dev.spiritworker.util.Utils;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -118,10 +113,12 @@ public class Maze extends GameMap implements Runnable {
 
 	}
 	
+	@Override
 	public void onEnter(GameCharacter character) {
 
 	}
 	
+	@Override
 	public void onLeave(GameCharacter character) {
 		if (getCharacters().size() == 0) {
 			getServer().deregisterMaze(this);

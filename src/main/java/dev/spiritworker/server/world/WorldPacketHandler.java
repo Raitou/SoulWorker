@@ -8,7 +8,6 @@ import dev.spiritworker.SpiritWorker;
 import dev.spiritworker.database.DatabaseHelper;
 import dev.spiritworker.game.AccessKey;
 import dev.spiritworker.game.character.GameCharacter;
-import dev.spiritworker.game.character.Skill;
 import dev.spiritworker.game.data.SoulWorker;
 import dev.spiritworker.game.data.def.SkillDef;
 import dev.spiritworker.game.inventory.InventorySlotType;

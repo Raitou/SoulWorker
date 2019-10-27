@@ -515,14 +515,14 @@ public class GameCharacter {
 		p.writeUint32(getStats().getMaxHp().getIntValue()); // Base Hp
 		p.writeUint32(200); // Unknown
 		p.writeUint32(200); // Unknown
-		p.writeUint32(0); // Unknown
-		p.writeUint32(0); // Unknown
-		p.writeUint32(100); // Soul energy/Stamina??
-		p.writeUint32(100); // Soul energy/Stamina??
-		p.writeUint32(0); // Unknown
-		p.writeUint32(0); // Unknown
-		p.writeFloat(100f); // Soul energy/Stamina??
-		p.writeFloat(100f); // Soul energy/Stamina??
+		p.writeUint32(0); // Unknown, leave empty
+		p.writeUint32(0); // Unknown, leave empty
+		p.writeUint32(100); // Unknown
+		p.writeUint32(100); // Stamina
+		p.writeUint32(0); // Unknown, leave empty
+		p.writeUint32(0); // Unknown, leave empty
+		p.writeFloat(100f); // Base move speed
+		p.writeFloat(100f); // Base attack speed
 		p.writeUint16(0); // Unknown
 		p.writeUint8(0); // Unknown
 		p.writeUint16(this.getEnergy()); // Energy

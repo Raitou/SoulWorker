@@ -48,6 +48,7 @@ public class Skill {
 		p.writeUint32(this.modifier);
 	}
 	
+	@Override
 	public String toString() {
 		return "[Skill: " + this.id + "]";
 	}

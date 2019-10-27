@@ -4,6 +4,8 @@ import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import dev.spiritworker.SpiritWorker;
 import dev.spiritworker.netty.SoulWorkerSession;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 
 public class AuthSession extends SoulWorkerSession {
@@ -50,6 +52,12 @@ public class AuthSession extends SoulWorkerSession {
 
 	@Override
 	protected void handleMessage(int opcode, ByteBuffer packet) {
+		// Log
+		if (SpiritWorker.getConfig().LOG_PACKETS) {
+			ByteBuf b = Unpooled.wrappedBuffer(packet.array());
+			this.logPacket(b);
+		}
+		
 		AuthPacketHandler.handle(this, opcode, packet);
 	}
 
