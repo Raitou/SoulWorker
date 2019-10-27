@@ -753,14 +753,26 @@ public class PacketBuilder {
 		return p.getPacket();
 	}
 	
-	public static byte[] sendClientUpdateSkill(Skill skill, int unk1, int unk2) {
-		PacketWriter p = new PacketWriter(PacketOpcodes.ClientUpdateSkill);
+	public static byte[] sendClientUpgradeSkill(Skill skill, int unk1, int unk2) {
+		PacketWriter p = new PacketWriter(PacketOpcodes.ClientUpgradeSkill);
 		
 		skill.write(p);
 		p.writeUint8(0);
 		p.writeUint8(1);
 		p.writeUint32(unk1);
-		p.writeUint8(68);
+		p.writeUint8(1); // Unknown
+		p.writeUint32(unk2);
+		p.writeEmpty(48);
+		
+		return p.getPacket();
+	}
+	
+	public static byte[] sendClientUpgradeSkillModifier(Skill skill, int unk1, int unk2) {
+		PacketWriter p = new PacketWriter(PacketOpcodes.ClientUpgradeSkillModifier);
+		
+		skill.write(p);
+		p.writeUint32(unk1);
+		p.writeUint8(1); // Unknown
 		p.writeUint32(unk2);
 		p.writeEmpty(48);
 		

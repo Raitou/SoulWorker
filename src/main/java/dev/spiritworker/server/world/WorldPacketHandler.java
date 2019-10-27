@@ -108,8 +108,11 @@ public class WorldPacketHandler {
 			case PacketOpcodes.ClientActivateSkill:
 				handleClientActivateSkill(session, packet);
 				break;
-			case PacketOpcodes.ClientUpdateSkill:
-				handleClientUpdateSkill(session, packet);
+			case PacketOpcodes.ClientUpgradeSkill:
+				handleClientUpgradeSkill(session, packet);
+				break;
+			case PacketOpcodes.ClientUpgradeSkillModifier:
+				handleClientUpgradeSkillModifier(session, packet);
 				break;
 			case PacketOpcodes.ClientChannelInfo:
 				handleClientChannelInfo(session);
@@ -248,13 +251,22 @@ public class WorldPacketHandler {
 		Maze maze = session.getServer().getMazeManager().createMaze(mazeId, session.getCharacter());
 	}
 
-	private static void handleClientUpdateSkill(WorldSession session, ByteBuffer packet) {
+	private static void handleClientUpgradeSkill(WorldSession session, ByteBuffer packet) {
 		int skill = packet.getInt();
 		packet.getInt();
 		int unk1 = packet.getInt();
 		int unk2 = packet.getInt();
 		
 		session.getCharacter().getSkills().upgradeSkill(skill, unk1, unk2);
+	}
+	
+	private static void handleClientUpgradeSkillModifier(WorldSession session, ByteBuffer packet) {
+		int skill = packet.getInt();
+		int modifier = packet.getInt();
+		int unk1 = packet.getInt();
+		int unk2 = packet.getInt();
+		
+		session.getCharacter().getSkills().upgradeSkillModifier(skill, modifier, unk1, unk2);
 	}
 
 	private static void handleClientItemDye(WorldSession session, ByteBuffer packet) {

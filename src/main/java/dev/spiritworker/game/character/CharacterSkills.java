@@ -107,11 +107,49 @@ public class CharacterSkills {
 	
 		// Send packets
 		if (newSkill != null) {
-			getCharacter().getSession().sendPacket(PacketBuilder.sendClientUpdateSkill(newSkill, unk1, unk2));
+			getCharacter().getSession().sendPacket(PacketBuilder.sendClientUpgradeSkill(newSkill, unk1, unk2));
 		}
 		if (updatedColumns != null && updatedColumns.size() > 0) {
 			getCharacter().getSession().sendPacket(PacketBuilder.sendClientUpdateSkillLoadout(character, updatedColumns));
 		}
+		getCharacter().getSession().sendPacket(PacketBuilder.sendClientUpdateSkillPoints(character));
+		
+		// Save to db
+		this.save();
+	}
+	
+	public void upgradeSkillModifier(int skillId, int modifier, int unk1, int unk2) {
+		// Sanity check
+		SkillDef skillDef = SoulWorker.getSkillDefs().get(skillId);
+		if (skillDef == null) {
+			return;
+		}
+		
+		int cost = 1; // TODO get skill point cost of skill and check if player has enough
+		if (getCharacter().getSkillPoints() < cost) {
+			return;
+		}
+		
+		// Check if the player has this skill already
+		Skill skill = getMap().get(skillId);
+		
+		if (skill == null || skill.getModifier() != 0) {
+			return;
+		}
+		
+		// Check if modifier exists
+		if (skillDef.getModifier1() == modifier || skillDef.getModifier2() == modifier) {
+			skill.setModifier(modifier);
+		} else {
+			return;
+		}
+		
+		// Update skill points
+		getCharacter().setSkillPoints(getCharacter().getSkillPoints() - cost);
+		getCharacter().setUsedSkillPoints(getCharacter().getUsedSkillPoints() + cost);
+	
+		// Send packets
+		getCharacter().getSession().sendPacket(PacketBuilder.sendClientUpgradeSkillModifier(skill, unk1, unk2));
 		getCharacter().getSession().sendPacket(PacketBuilder.sendClientUpdateSkillPoints(character));
 		
 		// Save to db

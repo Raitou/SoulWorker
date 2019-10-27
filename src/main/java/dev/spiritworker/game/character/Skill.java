@@ -7,7 +7,7 @@ import dev.spiritworker.net.packet.util.PacketWriter;
 
 public class Skill {
 	private int id;
-	private int upgrade;
+	private int modifier;
 	
 	@Transient private SkillDef skillDef;
 	
@@ -27,12 +27,12 @@ public class Skill {
 		this.id = id;
 	}
 	
-	public int getUpgrade() {
-		return upgrade;
+	public int getModifier() {
+		return modifier;
 	}
 	
-	public void setUpgrade(int upgrade) {
-		this.upgrade = upgrade;
+	public void setModifier(int mod) {
+		this.modifier = mod;
 	}
 	
 	public SkillDef getDef() {
@@ -45,7 +45,7 @@ public class Skill {
 
 	public void write(PacketWriter p) {
 		p.writeUint32(this.id);
-		p.writeUint32(this.upgrade);
+		p.writeUint32(this.modifier);
 	}
 	
 	public String toString() {

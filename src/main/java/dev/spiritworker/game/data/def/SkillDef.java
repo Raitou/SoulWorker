@@ -18,8 +18,8 @@ public class SkillDef extends ResourceDef {
 	public int v11;
 	public int v12;
 	private int nextSkill;
-	public int v14;
-	public int v15;
+	private int modifier1;
+	private int modifier2;
 	private int prevSkill;
 	public int v17;
 	public int v18;
@@ -106,6 +106,14 @@ public class SkillDef extends ResourceDef {
 		return cost;
 	}
 
+	public int getModifier1() {
+		return modifier1;
+	}
+
+	public int getModifier2() {
+		return modifier2;
+	}
+
 	@Override
 	public void loadFromRes(ByteBuffer buf) {
 		skillId = buf.getShort();
@@ -121,8 +129,8 @@ public class SkillDef extends ResourceDef {
 		v11 = buf.get();
 		v12 = buf.getInt();
 		nextSkill = buf.getInt();
-		v14 = buf.getInt();
-		v15 = buf.getInt();
+		modifier1 = buf.getInt();
+		modifier2 = buf.getInt();
 		prevSkill = buf.getInt();
 		v17 = buf.get();
 		v18 = buf.get();

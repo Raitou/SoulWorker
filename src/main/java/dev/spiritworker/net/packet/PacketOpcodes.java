@@ -75,9 +75,10 @@ public class PacketOpcodes {
 	public static final int ClientActivateSkillResponse = 0x0609;
 	public static final int ClientSkillDamageInfo = 0x0613;
 	public static final int ClientSkillsInfo = 0x0670;
-	public static final int ClientUpdateSkill = 0x0671;
-	public static final int ClientUpdateSkillLoadout = 0x0675;
+	public static final int ClientUpgradeSkill = 0x0671;
 	public static final int ClientUpdateSkillPoints = 0x0673;
+	public static final int ClientUpdateSkillLoadout = 0x0675;
+	public static final int ClientUpgradeSkillModifier = 0x0677;
 	
 	public static final int ClientChatNormal = 0x0701;
 	public static final int ClientChatWhisper = 0x0702;
