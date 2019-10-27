@@ -81,7 +81,8 @@ public class CharacterSkills {
 			return;
 		}
 		
-		int cost = 1; // TODO get skill point cost of skill and check if player has enough
+		// Get skill point cost of skill and check if player has enough
+		int cost = skillDef.getCost(); 
 		if (getCharacter().getSkillPoints() < cost) {
 			return;
 		}
