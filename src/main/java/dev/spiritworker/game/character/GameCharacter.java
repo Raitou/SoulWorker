@@ -23,8 +23,8 @@ public class GameCharacter {
 	private int id;
 	private int accountId;
 	
-	@Transient
-	private SoulWorkerSession owner;
+	@Transient private SoulWorkerSession owner;
+	@Transient private CharacterClass characterClass;
 
 	@Indexed(options = @IndexOptions(unique = true))
 	@Collation(locale = "simple", caseLevel = true)
@@ -92,6 +92,9 @@ public class GameCharacter {
 		for (int i = 0; i < Constants.MAX_EMOTE_SLOTS; i++) {
 			getEmotes()[i] = 7000 + i;
 		}
+		
+		// Load
+		onLoad();
 	}
 	
 	public SoulWorkerSession getSession() {
@@ -118,6 +121,10 @@ public class GameCharacter {
 		return this.type;
 	}
 	
+	public CharacterClass getCharacterClass() {
+		return characterClass;
+	}
+
 	public void setType(int type) {
 		this.type = type;
 	}
@@ -545,5 +552,10 @@ public class GameCharacter {
 		p.writeString8(String.valueOf(this.getSession().getAccountId()));
 		p.writeEmpty(15);
 		p.writeUint8(1); // Unknown
+	}
+	
+	@PostLoad
+	private void onLoad() {
+		this.characterClass = CharacterClass.getCharacterClass(this);
 	}
 }

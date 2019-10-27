@@ -3,6 +3,7 @@ package dev.spiritworker.game.character;
 import java.util.HashSet;
 import java.util.Set;
 
+import dev.spiritworker.game.character.CharacterClass.BaseStats;
 import dev.spiritworker.game.inventory.Item;
 import dev.spiritworker.game.map.District;
 import dev.spiritworker.net.packet.PacketBuilder;
@@ -29,7 +30,7 @@ public class CharacterStats {
 	private Stat accuracy;
 	private Stat critChance;
 	private Stat critResist;
-	private Stat critValue;
+	private Stat critDamage;
 	private Stat damageReduction;
 	private Stat evasion;
 	
@@ -51,13 +52,17 @@ public class CharacterStats {
 		this.accuracy = createStat(26);
 		this.critChance = createStat(29);
 		this.critResist = createStat(31);
-		this.critValue = createStat(35);
+		this.critDamage = createStat(35);
 		this.damageReduction = createStat(38);
 		this.evasion = createStat(43);
 	}
 	
 	public GameCharacter getCharacter() {
 		return character;
+	}
+	
+	public BaseStats getBaseStats() {
+		return getCharacter().getCharacterClass().getBaseStats();
 	}
 
 	public Int2ObjectMap<Stat> getMap() {
@@ -75,14 +80,18 @@ public class CharacterStats {
 	}
 	
 	public void recalc() {
-		float hpMax = 850 + (character.getLevel() * 300);
+		float hpMax = getBaseStats().getHealth() + (character.getLevel() * getBaseStats().getHealthPerLevel());
 		float hp = Math.min(this.hp.get(), hpMax);
-		float defence = 100;
+		float defence = getBaseStats().getDefence() + (character.getLevel() * getBaseStats().getDefencePerLevel());
 		float stamina = 100;
-		float attackMin = 10; // Filler
-		float attackMax = 20; // Filler
+		float attackMin = getBaseStats().getAttackMin() + (character.getLevel() * getBaseStats().getAttackMinPerLevel());
+		float attackMax = getBaseStats().getAttackMax() + (character.getLevel() * getBaseStats().getAttackMaxPerLevel());
 		float attackSpeed = 100;
 		float moveSpeed = 100;
+		float critChance = getBaseStats().getCritChance();
+		float critDamage = getBaseStats().getCritDamage() + (character.getLevel() * getBaseStats().getCritDamagePerLevel());
+		float accuracy = getBaseStats().getAccuracy() + (character.getLevel() * getBaseStats().getAccuracyPerLevel());
+		float evasion = getBaseStats().getEvasion() + (character.getLevel() * getBaseStats().getEvasionPerLevel());
 		
 		// Add item stats here
 		for (int slot = 0; slot < getCharacter().getInventory().getEquippedItems().getItems().length; slot++) {
@@ -108,6 +117,10 @@ public class CharacterStats {
 		this.attackMax.set(attackMax);
 		this.attackSpeed.set(attackSpeed);
 		this.moveSpeed.set(moveSpeed);
+		this.critChance.set(critChance);
+		this.critDamage.set(critDamage);
+		this.evasion.set(evasion);
+		this.accuracy.set(accuracy);
 		
 		// Sync to client
 		this.getCharacter().getSession().sendPacket(PacketBuilder.sendClientCharacterUpdate(this));
@@ -170,7 +183,7 @@ public class CharacterStats {
 	}
 
 	public Stat getCritValue() {
-		return critValue;
+		return critDamage;
 	}
 
 	public Stat getDamageReduction() {
