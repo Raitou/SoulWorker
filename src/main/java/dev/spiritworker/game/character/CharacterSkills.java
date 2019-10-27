@@ -1,8 +1,14 @@
 package dev.spiritworker.game.character;
 
+import java.util.Collection;
+
+import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
+import dev.morphia.annotations.PostLoad;
+import dev.morphia.annotations.PrePersist;
 import dev.morphia.annotations.Transient;
 import dev.spiritworker.Constants;
+import dev.spiritworker.database.DatabaseHelper;
 import dev.spiritworker.game.data.SoulWorker;
 import dev.spiritworker.game.data.def.SkillDef;
 import dev.spiritworker.net.packet.PacketBuilder;
@@ -11,16 +17,18 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSet;
 
+@Entity(value = "skills", noClassnameStored = true)
 public class CharacterSkills {
 	@Id private int id;
 	@Transient private GameCharacter character;
+	@Transient private Int2ObjectMap<Skill> skillMap;
 	
-	private Int2ObjectMap<Skill> skills;
+	private Collection<Skill> skills;
 	private int[][] loadout;
 	
 	// For morphia
 	public CharacterSkills() {
-		this.skills = new Int2ObjectOpenHashMap<Skill>();
+		this.skillMap = new Int2ObjectOpenHashMap<Skill>();
 		this.loadout = new int[Constants.LOADOUT_COLUMNS][Constants.LOADOUT_COLUMN_SIZE];
 	}
 	
@@ -39,7 +47,11 @@ public class CharacterSkills {
 	}
 	
 	public Int2ObjectMap<Skill> getMap() {
-		return skills;
+		return skillMap;
+	}
+	
+	public boolean validate() {
+		return this.skills != null && this.loadout != null;
 	}
 
 	public int[][] getLoadout() {
@@ -101,6 +113,9 @@ public class CharacterSkills {
 			getCharacter().getSession().sendPacket(PacketBuilder.sendClientUpdateSkillLoadout(character, updatedColumns));
 		}
 		getCharacter().getSession().sendPacket(PacketBuilder.sendClientUpdateSkillPoints(character));
+		
+		// Save to db
+		this.save();
 	}
 
 	public Skill addSkill(Skill skill) {
@@ -130,5 +145,19 @@ public class CharacterSkills {
 		}
 		
 		return list;
+	}
+	
+	public void save() {
+		DatabaseHelper.saveCharacterSkills(this);
+	}
+	
+	@PrePersist
+	private void onSave() {
+		this.skills = this.skillMap.values();
+	}
+	
+	@PostLoad
+	private void onLoad() {
+		this.skills.stream().forEach(skill -> this.addSkill(skill));
 	}
 }

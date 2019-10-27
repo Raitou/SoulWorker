@@ -349,13 +349,27 @@ public class GameCharacter {
 	
 	// TODO load from db
 	public void loadSkills() {
-		CharacterClass c = CharacterClass.getCharacterClass(this);
-		for (int skillId : c.getSkills()) {
-			Skill skill = new Skill(skillId);
-			this.getSkills().addSkill(skill);
-		}
-		for (int column = 0; column < getSkills().getLoadout().length; column++) {
-			System.arraycopy(c.getLoadout()[column], 0, getSkills().getLoadout()[column], 0, c.getLoadout()[column].length);
+		CharacterSkills skills = DatabaseHelper.getCharacterSkills(this);
+
+		if (skills == null || skills.validate()) {
+			skills = new CharacterSkills(this);
+			
+			CharacterClass c = CharacterClass.getCharacterClass(this);
+			
+			for (int skillId : c.getSkills()) {
+				Skill skill = new Skill(skillId);
+				skills.addSkill(skill);
+			}
+			
+			for (int column = 0; column < skills.getLoadout().length; column++) {
+				System.arraycopy(c.getLoadout()[column], 0, skills.getLoadout()[column], 0, c.getLoadout()[column].length);
+			}
+			
+			this.skills = skills;
+			this.skills.save();
+		} else {
+			skills.setCharacter(this);
+			this.skills = skills;
 		}
 	}
 	

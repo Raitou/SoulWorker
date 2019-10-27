@@ -11,6 +11,7 @@ import dev.morphia.Morphia;
 import dev.spiritworker.SpiritWorker;
 import dev.spiritworker.game.AccessKey;
 import dev.spiritworker.game.AccountData;
+import dev.spiritworker.game.character.CharacterSkills;
 import dev.spiritworker.game.character.GameCharacter;
 import dev.spiritworker.game.inventory.Item;
 import dev.spiritworker.game.inventory.data.BankUpgradeData;
@@ -21,7 +22,7 @@ public class DatabaseManager {
 	private static Datastore datastore;
 	
 	private static Class<?>[] mappedClasses = new Class<?>[] {
-		DatabaseCounter.class, AccessKey.class, AccountData.class, GameCharacter.class, Item.class, BankUpgradeData.class
+		DatabaseCounter.class, AccessKey.class, AccountData.class, GameCharacter.class, Item.class, BankUpgradeData.class, CharacterSkills.class
 	};
     
     public static MongoClient getMongoClient() {

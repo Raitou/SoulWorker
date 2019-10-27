@@ -8,6 +8,7 @@ import dev.morphia.query.Query;
 import dev.morphia.query.internal.MorphiaCursor;
 import dev.spiritworker.game.AccessKey;
 import dev.spiritworker.game.AccountData;
+import dev.spiritworker.game.character.CharacterSkills;
 import dev.spiritworker.game.character.GameCharacter;
 import dev.spiritworker.game.inventory.InventorySlotType;
 import dev.spiritworker.game.inventory.Item;
@@ -185,5 +186,15 @@ public class DatabaseHelper {
 
 	public static void saveBankUpgradeData(BankUpgradeData bankUpgradeData) {
 		DatabaseManager.getDatastore().save(bankUpgradeData);
+	}
+	
+	public static void saveCharacterSkills(CharacterSkills skills) {
+		DatabaseManager.getDatastore().save(skills);
+	}
+	
+	public static CharacterSkills getCharacterSkills(GameCharacter character) {
+		MorphiaCursor<CharacterSkills> cursor = DatabaseManager.getDatastore().createQuery(CharacterSkills.class).filter("_id", character.getId()).find();
+		if (!cursor.hasNext()) return null;
+		return cursor.next();
 	}
 }
