@@ -406,8 +406,8 @@ public class WorldPacketHandler {
 
 	private static void handleClientRequestPlayers(WorldSession session) {
 		session.getCharacter().getMap().getPlayersInfo(session.getCharacter());
-		if (session.getCharacter().getMap().getMapId() == 10003) {
-			session.trySendPacket(FileUtils.read(SpiritWorker.getConfig().PACKETS_FOLDER + "npcs.packet")); // 0x0422 NPC
+		if (session.getCharacter().getMap() instanceof District && ((District) session.getCharacter().getMap()).getDef().getData() != null) {
+			session.trySendPacket(PacketBuilder.sendClientNpcInfo(session.getCharacter()));
 		}
 	}
 

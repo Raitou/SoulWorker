@@ -3,11 +3,13 @@ package dev.spiritworker.game.data.def;
 import java.nio.ByteBuffer;
 
 import dev.spiritworker.game.data.ResourceDef;
+import dev.spiritworker.game.data.spawns.DistrictData;
 
 public class DistrictDef extends ResourceDef {
 	private String name;
 	private int i1;
 	private int i2;
+	private DistrictData data;
 
 	public DistrictDef(int id) {
 		super(id);
@@ -15,6 +17,14 @@ public class DistrictDef extends ResourceDef {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public void setData(DistrictData districtData) {
+		this.data = districtData;
+	}
+	
+	public DistrictData getData() {
+		return this.data;
 	}
 
 	@Override

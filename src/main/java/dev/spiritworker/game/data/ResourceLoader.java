@@ -12,6 +12,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import dev.spiritworker.Config;
 import dev.spiritworker.SpiritWorker;
 import dev.spiritworker.game.data.def.*;
+import dev.spiritworker.game.data.spawns.DistrictData;
 import dev.spiritworker.game.data.spawns.MazeData;
 
 public class ResourceLoader {
@@ -25,6 +26,7 @@ public class ResourceLoader {
 		loadFromResource("tb_Monster.res", MonsterDef.class, SoulWorker.getMonsterDefs());
 		
 		loadMazes();
+		loadDistricts();
 	}
 	
 	@SuppressWarnings("rawtypes")
@@ -94,6 +96,26 @@ public class ResourceLoader {
 				MazeDef maze = SoulWorker.getMazeDefs().get(mazeSpawnData.getId());
 				if (maze != null) {
 					maze.setData(mazeSpawnData);
+				}
+			} catch (Exception e) {
+				SpiritWorker.getLogger().error("Error reading from data files.", e);
+			}
+		}
+	}
+	
+	public static void loadDistricts() {
+		File dir = new File(SpiritWorker.getConfig().DATA_FOLDER + "districts/");
+		
+		if (!dir.exists()) {
+			return;
+		}
+		
+		for (File file : dir.listFiles()) {
+			try (FileReader fr = new FileReader(file)) {
+				DistrictData districtData = SpiritWorker.getGsonFactory().fromJson(fr, DistrictData.class);
+				DistrictDef district = SoulWorker.getDistrictDefs().get(districtData.getId());
+				if (district != null) {
+					district.setData(districtData);
 				}
 			} catch (Exception e) {
 				SpiritWorker.getLogger().error("Error reading from data files.", e);

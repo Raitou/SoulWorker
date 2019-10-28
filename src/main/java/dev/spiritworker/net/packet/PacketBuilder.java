@@ -14,11 +14,13 @@ import dev.spiritworker.game.character.GameCharacter;
 import dev.spiritworker.game.character.Skill;
 import dev.spiritworker.game.character.Stat;
 import dev.spiritworker.game.data.def.SkillDef;
+import dev.spiritworker.game.data.spawns.DistrictData.DistrictNpcData;
 import dev.spiritworker.game.inventory.BaseInventoryTab;
 import dev.spiritworker.game.inventory.InventorySlotType;
 import dev.spiritworker.game.inventory.InventoryTab;
 import dev.spiritworker.game.inventory.Item;
 import dev.spiritworker.game.inventory.ItemEnhanceResult;
+import dev.spiritworker.game.map.District;
 import dev.spiritworker.game.map.GameMap;
 import dev.spiritworker.game.map.Maze;
 import dev.spiritworker.game.map.Monster;
@@ -1008,6 +1010,26 @@ public class PacketBuilder {
 		
 		// Padding
 		p.writeEmpty(6 * 8);
+		
+		return p.getPacket();
+	}
+	
+	public static byte[] sendClientNpcInfo(GameCharacter character) {
+		PacketWriter p = new PacketWriter(PacketOpcodes.ClientNpcsInfo);
+		
+		District district = (District) character.getMap();
+
+		p.writeUint16(district.getDef().getData().getNpcList().size());
+		for (DistrictNpcData npc : district.getDef().getData().getNpcList()) {
+			p.writeUint32(npc.getId());
+			p.writeFloat(npc.getPos().getX());
+			p.writeFloat(npc.getPos().getY());
+			p.writeFloat(npc.getPos().getZ());
+			p.writeFloat(npc.getAngle());
+			p.writeEmpty(12);
+			p.writeUint32(npc.getTableId());
+			p.writeUint8(0);
+		}
 		
 		return p.getPacket();
 	}
