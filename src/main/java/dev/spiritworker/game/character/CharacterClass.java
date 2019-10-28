@@ -116,16 +116,16 @@ public enum CharacterClass {
 	),
 	IRIS (
 		6, 
-		new BaseStats() // TODO
+		new BaseStats()
 			.setHealth(750).setHealthPerLevel(250)
-			.setDefence(2.5f).setDefencePerLevel(5f)
-			.setSuperArmor(262.5f).setSuperArmorPerLevel(140f)
-			.setAttackMin(28.8f).setAttackMinPerLevel(14.4f)
-			.setAttackMax(36f).setAttackMaxPerLevel(18f)
-			.setCritDamage(28.8f).setCritDamagePerLevel(14.4f)
+			.setDefence(1.25f).setDefencePerLevel(6.25f)
+			.setSuperArmor(262.5f).setSuperArmorPerLevel(140f) // TODO
+			.setAttackMin(28.8f).setAttackMinPerLevel(14.4f) // TODO
+			.setAttackMax(27f).setAttackMaxPerLevel(27f)
+			.setCritDamage(28.8f).setCritDamagePerLevel(14.4f) // TODO
 			.setCritChance(1f).setCritChancePerLevel(0)
-			.setAccuracy(801.25f).setAccuracyPerLevel(2.5f)
-			.setEvasion(.25f).setEvasionPerLevel(.5f),
+			.setAccuracy(800.3125f).setAccuracyPerLevel(2.8125f) // TODO
+			.setEvasion(0f).setEvasionPerLevel(.5f), // TODO
 		new int[] {62110011, 62000311, 116, 62040011, 62070011, 62000211, 16, 62100011, 61160111, 62000111, 62090011, 62080011}, 
 		new int[][] {
 			{62000111, 62000211, 62000311},
