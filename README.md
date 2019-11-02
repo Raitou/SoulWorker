@@ -1,4 +1,4 @@
-# SpiritWorker
+# SpiritWorker - A SoulWorkerEmu
 A WIP server emulator for SoulWorker (GF 1.7.20.2). Currently, you can spawn in the world, give yourself items, and play the very first dungeon.
 
 # Running the server and client
